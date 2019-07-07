@@ -19,7 +19,7 @@
 4. Si on bloque sur quoi que ce soit, on ouvre une issue en décrivant le nom du problème, le contexte, le résultat attendu et le résultat obtenu. Ne pas hésiter à enrichir ce genre de contenu (commit, issues, pull request) avec des étiquettes, mention, etc.
 5. Si le code est fonctionel, on crée une pull request en mentionnant les personnes qui s'intéressent au projet.
 6. Si la request est acceptée, on merge la branche sur la master et on delete la branche.
-> Il est possible de modifier directement un fichier de la branche puis créer une sous branche avec cette modif au moment du commit. Cest facile et ça envoi direct le commit dans les pull request, ce qui envoi une notif et met les tableaux de gestion de projet à jour.
+> Il est possible de modifier directement un fichier de la branche master puis créer une branche avec cette modif au moment du commit. Cest facile et ça envoi direct le commit dans les pull request, ce qui envoi une notif et met les tableaux de gestion de projet à jour.
 # Gestion du projet
 **Voir l'onglet `Projects` pour accéder:**
 * Au tableau avancement qui répertorie les `Travaux à faire`, les `Travaux en cours` et `Travaux fini`.
