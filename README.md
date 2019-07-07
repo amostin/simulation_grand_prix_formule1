@@ -1,8 +1,12 @@
 > On va pas encore faire le readme maintenant. Je vais l'utiliser pour expliquer l'organisation basique pour qu'on puisse produire un travail de qualité. Ces informations sont inspirées des [guides github](https://guides.github.com/) et de [l'aide github](https://help.github.com/en).
 
-:warning: **On ne commmit rien sur la branche master.** :exclamation: 
+# Prérequis:
+
+:warning: **On ne commmit rien sur la branche master.** :warning: 
 
 > Les commits doivent tous passer par une pull request et être validé pour une fusion avec la branche master; Même si c'est par soi même. Cela pour garder un historique clair de notre travail.
+
+:point_right: Le minimum de ce que je sais sur l'organisation d'un projet sur github se trouve dans [ce fichier](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE).
 
 # Etapes de production de contenu:
 0. On va voir les tableau dans l'onglet `Projects` pour savoir où on en est et selectionner une tache sur laquelle travailler.
