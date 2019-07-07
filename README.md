@@ -1,5 +1,7 @@
 > On va pas encore faire le readme maintenant. Je vais l'utiliser pour expliquer l'organisation basique pour qu'on puisse produire un travail de qualité. Ces informations sont inspirées des [guides github](https://guides.github.com/) et de [l'aide github](https://help.github.com/en).
 
+> :hammer: Moi aussi je connais pas bien donc je m'entraine en suivant cette procédure :slightly_smiling_face:
+
 # Prérequis:
 
 :warning: **On ne commmit rien sur la branche master.** :warning: 
