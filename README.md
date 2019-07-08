@@ -28,7 +28,7 @@
 > * Les nouvelles issues arrivent dans la colonne `To Do` 
 > * Les nouvelles pull request, les rouvertes et les issues rouvertes arrivent dans la colonne `In progress` 
 > * Les issues fermée, pull request fusionée ou fusionnée sans validation arrivent dans la colonne `Done`
-> * Faut encore voir comment marche les reviews
+> * Si qqu demande des changement dans une pull request, la carte va dans review in progress
 
 > Dans le tableau triage de bug:
 > * Les issues nouvelles et réouvertes arrivent dans `To Do`
