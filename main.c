@@ -11,7 +11,7 @@
         int genere_sec_entre_min_max(int min, int max) {
             //pour etre sur que ça genere un temps different
             sleep(1);
-            //un temps aléatoire
+            //un temps aléatoire pas si aléatoire
             time_t t;
             //generation d'un nouveau nbre aleatoire parce que sinon ya que le premier qui est aleatoire puis le reste est le meme
             srand((unsigned) time(&t));
@@ -29,27 +29,28 @@
             return tour;
         }
 
-        void ecrit_classement_final(char titre_string[], char separateur_ligne[]){
+        void ecrit_classement_final(char valeurs_string[]){
             //printf("\n ICI JE VAIS ECRIRE LE FICHIER\n");
             FILE* fichier = NULL;
             //printf("avant open\n");
-            fichier = fopen("../test.txt", "w+");
+            fichier = fopen("../test.txt", "w");
             //printf("après open\n");
             if (fichier != NULL) {
                 // On l'écrit dans le fichier
-                fprintf(fichier, "%s%s", titre_string, separateur_ligne);
+                fprintf(fichier, "%s", valeurs_string);
                 fclose(fichier);
                 printf("apres ecriture");
             }
             else { printf("\n on a pas su ouvrir le fichier!");}
         }
 
-        void string_pour_fichier(int name, int s1, int s2, int s3, int tour, int bestour){
+        char string_pour_fichier(char titres_colonnes[], char separateur_titres_valeurs[], int name, int s1, int s2, int s3, int tour, int bestour){
             //le tableau qui va contenir la chaine a ecrire dans le fichier
             char valeurs_string[1000];
             //fonction qui concatene les nombres dans une chaine avec les separateurs
-            sprintf(valeurs_string, "%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
-            printf("%s", valeurs_string);
+            sprintf(valeurs_string, "%s%s%d  |%d|%d|%d|%d |%d    |no |no \n", titres_colonnes, separateur_titres_valeurs, name, s1, s2, s3, tour, bestour);
+            ecrit_classement_final(valeurs_string);
+            //printf("%s", valeurs_string);
         }
 
     //affiche les titres des colonnes avec separatuers et insere des valeurs dedans
@@ -72,10 +73,10 @@
 
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
-        //printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
+        printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
 
-        string_pour_fichier(name, s1, s2, s3, tour, bestour);
-        ecrit_classement_final(titres_colonnes, separateur_titres_valeurs);
+
+        string_pour_fichier(titres_colonnes, separateur_titres_valeurs, name, s1, s2, s3, tour, bestour);
     }
 
 int main (int argc, char *argv[]) {
