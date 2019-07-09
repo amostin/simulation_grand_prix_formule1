@@ -1,4 +1,4 @@
-//lib utile au printf()
+//lib utile au printf() et à la struct FILE
 #include <stdio.h>
 //lib utile au time()
 #include <time.h>
@@ -30,7 +30,21 @@
         }
 
         void ecrit_classement_final(){
-            printf("\n ICI JE VAIS ECRIRE LE FICHIER");
+            printf("\n ICI JE VAIS ECRIRE LE FICHIER\n");
+            FILE* fichier = NULL;
+printf("avant open\n");
+            fichier = fopen("../test.txt", "w+");
+printf("après open\n");
+            if (fichier != NULL)
+            {
+
+
+                // On l'écrit dans le fichier
+                fprintf(fichier, "ok j'arrive à ecrire un fichier puis l'ecraser au prochain appel. il suffit de mettre juste w si on veut append.\n");
+printf("apres ecriture");
+                fclose(fichier);
+            }
+            else { printf("\n on a pas su ouvrir le fichier!");}
         }
 
     //affiche les titres des colonnes avec separatuers et insere des valeurs dedans
@@ -53,7 +67,7 @@
 
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
-        printf("%d  |%d|%d|%d|%d |%d    |no |no ", name, s1, s2, s3, tour, bestour);
+        printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
 
         ecrit_classement_final();
     }
