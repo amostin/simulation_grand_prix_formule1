@@ -20,13 +20,13 @@ int genere_sec_entre_min_max(int min, int max) {
 }
 
 int main () {
-    //batterie de test pour voir le comportement de la fonction nouvellement créée
-    genere_sec_entre_min_max(1, 3);
-    genere_sec_entre_min_max(15, 34);
-    genere_sec_entre_min_max(0, 0);
-    genere_sec_entre_min_max(-69, -65);
-    genere_sec_entre_min_max(100, -100);
-    genere_sec_entre_min_max(747474, 858585);
+
+    //Je veux afficher:
+    //name|s1|s2|s3|tour|bestour|pit|out
+    //----|--|--|--|----|-------|---|---
+    //22|38|37|41|116|105|no|no
+
+
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
 }
