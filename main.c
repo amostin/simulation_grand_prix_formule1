@@ -23,8 +23,8 @@ int genere_sec_entre_min_max(int min, int max) {
     return sec;
 }
 
-int main () {
 
+void affiche(){
     //Je veux afficher:
     //name|s1|s2|s3|tour|bestour|pit|out
     //----|--|--|--|----|-------|---|---
@@ -40,7 +40,12 @@ int main () {
     printf("name|s1|s2|s3|tour|bestour|pit|out\n");
     printf("----|--|--|--|----|-------|---|---\n");
     printf("%d  |%d|%d|%d|%d |%d    |no |no ", name, s1, s2, s3, tour, bestour);
+}
 
+int main () {
+
+    affiche();
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
 }
+
