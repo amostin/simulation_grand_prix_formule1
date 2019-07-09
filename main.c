@@ -33,7 +33,7 @@
             //printf("\n ICI JE VAIS ECRIRE LE FICHIER\n");
             FILE* fichier = NULL;
             //printf("avant open\n");
-            fichier = fopen("../test.txt", "w");
+            fichier = fopen("../test.md", "w");
             //printf("après open\n");
             if (fichier != NULL) {
                 // On l'écrit dans le fichier
@@ -53,6 +53,13 @@
             //printf("%s", valeurs_string);
         }
 
+        void convert_sec_min(int sec){
+            int combien_de_minute_dans_sec = sec/60;
+            sec -= combien_de_minute_dans_sec*60;
+
+            printf("%d min %d sec\n", combien_de_minute_dans_sec, sec);
+        }
+
     //affiche les titres des colonnes avec separatuers et insere des valeurs dedans
     void affiche(){
         //Je veux afficher:
@@ -70,7 +77,7 @@
         //je veux calculer s1+s2+s3 et retourner le resultat
         int tour = calculTour(s1, s2, s3);
         int bestour =  calculTour(s1, s2, s3);
-
+        convert_sec_min(tour);
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
         printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
