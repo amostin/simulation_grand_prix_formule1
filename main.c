@@ -29,7 +29,7 @@
             return tour;
         }
 
-        void ecrit_classement_final(char string[]){
+        void ecrit_classement_final(char titre_string[], char separateur_ligne[]){
             //printf("\n ICI JE VAIS ECRIRE LE FICHIER\n");
             FILE* fichier = NULL;
             //printf("avant open\n");
@@ -37,7 +37,7 @@
             //printf("après open\n");
             if (fichier != NULL) {
                 // On l'écrit dans le fichier
-                fprintf(fichier, "%s \n", string);
+                fprintf(fichier, "%s%s", titre_string, separateur_ligne);
                 fclose(fichier);
                 printf("apres ecriture");
             }
@@ -70,7 +70,8 @@
         printf("%s", separateur_titres_valeurs);
         printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
 
-        ecrit_classement_final(titres_colonnes);
+        string_pour_fichier();
+        ecrit_classement_final(titres_colonnes, separateur_titres_valeurs);
     }
 
 int main (int argc, char *argv[]) {
