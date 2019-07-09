@@ -44,8 +44,12 @@
             else { printf("\n on a pas su ouvrir le fichier!");}
         }
 
-        void string_pour_fichier(){
-
+        void string_pour_fichier(int name, int s1, int s2, int s3, int tour, int bestour){
+            //le tableau qui va contenir la chaine a ecrire dans le fichier
+            char valeurs_string[1000];
+            //fonction qui concatene les nombres dans une chaine avec les separateurs
+            sprintf(valeurs_string, "%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
+            printf("%s", valeurs_string);
         }
 
     //affiche les titres des colonnes avec separatuers et insere des valeurs dedans
@@ -68,9 +72,9 @@
 
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
-        printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
+        //printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
 
-        string_pour_fichier();
+        string_pour_fichier(name, s1, s2, s3, tour, bestour);
         ecrit_classement_final(titres_colonnes, separateur_titres_valeurs);
     }
 
