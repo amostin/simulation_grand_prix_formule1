@@ -51,7 +51,10 @@
         printf("%d  |%d|%d|%d|%d |%d    |no |no ", name, s1, s2, s3, tour, bestour);
     }
 
-int main () {
+int main (int argc, char *argv[]) {
+    //petit rappel argc argv comme ça on sais comment gerer les parametre du programme quand on en aura besoin
+    if (argc == 1){printf("Le seul argument est le: %s", argv[argc-1]); return 69;}
+    else if (argc == 2){printf("Le premier argument est le: %s\nLe deuxieme est: %s", argv[0], argv[1]); return 70;}
     affiche();
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
