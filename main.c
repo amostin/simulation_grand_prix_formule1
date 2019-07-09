@@ -25,7 +25,7 @@ int main () {
     //name|s1|s2|s3|tour|bestour|pit|out
     //----|--|--|--|----|-------|---|---
     //22|38|37|41|116|105|no|no
-
+ 
 
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
