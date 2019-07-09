@@ -44,8 +44,11 @@
         //je veux calculer s1+s2+s3 et retourner le resultat
         int tour = calculTour(s1, s2, s3);
         int bestour =  calculTour(s1, s2, s3);
-        printf("name|s1|s2|s3|tour|bestour|pit|out\n");
-        printf("----|--|--|--|----|-------|---|---\n");
+
+        char titres_colonnes[] = "name|s1|s2|s3|tour|bestour|pit|out\n";
+        char separateur_titres_valeurs[] = "----|--|--|--|----|-------|---|---\n";
+        printf("%s", titres_colonnes);
+        printf("%s", separateur_titres_valeurs);
         printf("%d  |%d|%d|%d|%d |%d    |no |no ", name, s1, s2, s3, tour, bestour);
     }
 
@@ -54,4 +57,3 @@ int main () {
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
 }
-
