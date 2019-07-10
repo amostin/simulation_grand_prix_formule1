@@ -30,11 +30,11 @@
         }
 
         void ecrit_classement_final(char valeurs_string[]){
-            //printf("\n ICI JE VAIS ECRIRE LE FICHIER\n");
+
             FILE* fichier = NULL;
-            //printf("avant open\n");
-            fichier = fopen("../test.md", "w");
-            //printf("après open\n");
+
+            fichier = fopen("../test.md", "a+");
+
             if (fichier != NULL) {
                 // On l'écrit dans le fichier
                 fprintf(fichier, "%s", valeurs_string);
