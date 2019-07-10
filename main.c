@@ -39,7 +39,7 @@
                 // On l'écrit dans le fichier
                 fprintf(fichier, "%s", valeurs_string);
                 fclose(fichier);
-                printf("apres ecriture");
+                //printf("apres ecriture");
             }
             else { printf("\n on a pas su ouvrir le fichier!");}
         }
@@ -77,7 +77,7 @@
         //je veux calculer s1+s2+s3 et retourner le resultat
         int tour = calculTour(s1, s2, s3);
         int bestour =  calculTour(s1, s2, s3);
-        convert_sec_min(tour);
+        //convert_sec_min(tour);
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
         printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
@@ -93,6 +93,8 @@ int main (int argc, char *argv[]) {
 
 
     affiche();
+    //regex. equivalent de clear pour refresh la console
+    printf("\e[1;1H\e[2J");
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
 }
