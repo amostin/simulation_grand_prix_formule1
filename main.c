@@ -33,7 +33,7 @@
 
             FILE* fichier = NULL;
 
-            fichier = fopen("../test.md", "a+");
+            fichier = fopen("../test.md", "w+");
 
             if (fichier != NULL) {
                 // On l'écrit dans le fichier
