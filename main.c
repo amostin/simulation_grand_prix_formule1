@@ -69,7 +69,7 @@
         char titres_colonnes[] = "name|s1|s2|s3|tour|bestour|pit|out\n";
         char separateur_titres_valeurs[] = "----|--|--|--|----|-------|---|---\n";
 
-        int name = genere_sec_entre_min_max(10, 22);
+        int name = 1;
         int s1 = genere_sec_entre_min_max(35, 40);
         int s2 = genere_sec_entre_min_max(35, 40);
         int s3 = genere_sec_entre_min_max(35, 40);
@@ -91,10 +91,13 @@ int main (int argc, char *argv[]) {
     if (argc == 1){printf("Le seul argument est le: %s", argv[argc-1]); return 69;}
     else if (argc == 2){printf("Le premier argument est le: %s\nLe deuxieme est: %s", argv[0], argv[1]); return 70;}
 
+    //on affiche 5 tableau different sans quon ai l'impression qu'il s'efface et se réaffiche
+    for(int i = 0; i < 5; i++){
+        //regex. equivalent de clear pour refresh la console
+        printf("\e[1;1H\e[2J");
+        affiche();
+    }
 
-    affiche();
-    //regex. equivalent de clear pour refresh la console
-    printf("\e[1;1H\e[2J");
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
 }
