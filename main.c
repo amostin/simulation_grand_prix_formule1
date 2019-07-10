@@ -74,13 +74,20 @@
         int s2 = genere_sec_entre_min_max(35, 40);
         int s3 = genere_sec_entre_min_max(35, 40);
 
+        int pit = genere_sec_entre_min_max(1, 10);
+        int out = genere_sec_entre_min_max(1, 20);
+
+        if(pit == 4){pit = 1;}
+        else {pit = 99;}
+        if(out == 15){out = 1;}
+        else {out = 99;}
         //je veux calculer s1+s2+s3 et retourner le resultat
         int tour = calculTour(s1, s2, s3);
         int bestour =  calculTour(s1, s2, s3);
         //convert_sec_min(tour);
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
-        printf("%d  |%d|%d|%d|%d |%d    |no |no \n", name, s1, s2, s3, tour, bestour);
+        printf("%d  |%d|%d|%d|%d |%d    |%d |%d \n", name, s1, s2, s3, tour, bestour, pit, out);
 
 
         string_pour_fichier(titres_colonnes, separateur_titres_valeurs, name, s1, s2, s3, tour, bestour);
