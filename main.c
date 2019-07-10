@@ -60,37 +60,47 @@
             printf("%d min %d sec\n", combien_de_minute_dans_sec, sec);
         }
 
+        void genere_et_affiche_valeur(){
+
+            //on affiche 5 tableau different sans quon ai l'impression qu'il s'efface et se réaffiche
+            for(int i = 0; i < 3; i++) {
+                int name = 1;
+                int s1 = genere_sec_entre_min_max(35, 40);
+                int s2 = genere_sec_entre_min_max(35, 40);
+                int s3 = genere_sec_entre_min_max(35, 40);
+
+                int tour = calculTour(s1, s2, s3);
+                int bestour =  calculTour(s1, s2, s3);
+                //convert_sec_min(tour);
+                int pit = genere_sec_entre_min_max(1, 10);
+                int out = genere_sec_entre_min_max(1, 20);
+
+                //proba pit 1/10, out 1/20
+                if(pit == 4){pit = 1;}
+                else {pit = 99;}
+                if(out == 15){out = 1;}
+                else {out = 99;}
+
+                printf("%d  |%d|%d|%d|%d |%d    |%d |%d \n", name, s1, s2, s3, tour, bestour, pit, out);
+            }
+        }
+
     //affiche les titres des colonnes avec separatuers et insere des valeurs dedans
-    void affiche(){
+    void affiche_titre(){
         //Je veux afficher:
         //name|s1|s2|s3|tour|bestour|pit|out
         //----|--|--|--|----|-------|---|---
         //22|38|37|41|116|105|no|no
+
         char titres_colonnes[] = "name|s1|s2|s3|tour|bestour|pit|out\n";
         char separateur_titres_valeurs[] = "----|--|--|--|----|-------|---|---\n";
 
-        int name = 1;
-        int s1 = genere_sec_entre_min_max(35, 40);
-        int s2 = genere_sec_entre_min_max(35, 40);
-        int s3 = genere_sec_entre_min_max(35, 40);
-
-        int pit = genere_sec_entre_min_max(1, 10);
-        int out = genere_sec_entre_min_max(1, 20);
-
-        if(pit == 4){pit = 1;}
-        else {pit = 99;}
-        if(out == 15){out = 1;}
-        else {out = 99;}
-        //je veux calculer s1+s2+s3 et retourner le resultat
-        int tour = calculTour(s1, s2, s3);
-        int bestour =  calculTour(s1, s2, s3);
-        //convert_sec_min(tour);
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
-        printf("%d  |%d|%d|%d|%d |%d    |%d |%d \n", name, s1, s2, s3, tour, bestour, pit, out);
 
+        genere_et_affiche_valeur();
 
-        string_pour_fichier(titres_colonnes, separateur_titres_valeurs, name, s1, s2, s3, tour, bestour);
+        //string_pour_fichier(titres_colonnes, separateur_titres_valeurs, name, s1, s2, s3, tour, bestour);
     }
 
 int main (int argc, char *argv[]) {
@@ -98,12 +108,10 @@ int main (int argc, char *argv[]) {
     if (argc == 1){printf("Le seul argument est le: %s", argv[argc-1]); return 69;}
     else if (argc == 2){printf("Le premier argument est le: %s\nLe deuxieme est: %s", argv[0], argv[1]); return 70;}
 
-    //on affiche 5 tableau different sans quon ai l'impression qu'il s'efface et se réaffiche
-    for(int i = 0; i < 5; i++){
-        //regex. equivalent de clear pour refresh la console
-        printf("\e[1;1H\e[2J");
-        affiche();
-    }
+    //regex. equivalent de clear pour refresh la console
+    printf("\e[1;1H\e[2J");
+    affiche_titre();
+
 
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
