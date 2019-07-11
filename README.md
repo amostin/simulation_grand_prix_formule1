@@ -4,8 +4,8 @@
 
 # Prérequis:
 
-:point_right: Si vous ne connaissez rien de Github, veuillez vous instruire en lisant [ce fichier](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE) ou les guides sur internet pour des infos plus complètes.
-
+:point_right: Si vous ne connaissez rien de Github, veuillez vous instruire en lisant 
+# [le résumé des guides github](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE).
 # Etapes de production de contenu:
 :warning: **On ne commmit rien sur la branche master.** :warning: 
 
