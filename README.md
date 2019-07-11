@@ -4,13 +4,13 @@
 
 # Prérequis:
 
+:point_right: Si vous ne connaissez rien de Github, veuillez vous instruire en lisant [ce fichier](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE) ou les guides sur internet pour des infos plus complètes.
+
+# Etapes de production de contenu:
 :warning: **On ne commmit rien sur la branche master.** :warning: 
 
 > Les commits doivent tous passer par une pull request et être validé pour une fusion avec la branche master; Même si c'est par soi même. Cela pour garder un historique clair de notre travail.
 
-:point_right: Le minimum de ce que je sais sur l'organisation d'un projet sur github se trouve dans [ce fichier](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE).
-
-# Etapes de production de contenu:
 1. On va voir les tableau dans l'onglet `Projects` pour savoir où on en est et mettre la ou les taches dans la ou les bonnes colonnes. 
 > Je pense que les cartes se mettent automatiquement en proposition dans le tableau mais qu'il faut qu'on les mettent nous même dans la colonne à faire ou en progression pour qu'elle navigue automatiquement. En tout cas je viens de tester que si on met une carte dans `validation` elle bouge automatiquement vers `done` quand je merge mais si je crée une pull request, il me propose juste de mettre la carte dans une colonne. 
 2. On crée une branche qui sera nommée selon le code que l'on veut produire.
