@@ -17,3 +17,7 @@
 2. Si on bloque sur une modification, on doit ajouter une `Issue` en selectionnant les deux tableaux `Projects`.
 3. Une fois satisfait, on mentionne des contributeurs dans la conversation de la `pull request` pour qu'ils review et approuve la fusion avec la branche version.
 4. Enfin, après que toutes les fonctionnalités de la version soit ajoutées à la branche `version`, on discute, on commente, on écrit un fichier de retrospective pour voir comment s'est passé la dernière itération et on met à jour le `backlog` pour pouvoir commencer une nouvelle version.
+
+# Outils:
+
+[CLION](https://linuxhint.com/install_jetbrains_clion_ubuntu/) c'est un super IDE similaire a php ou webstorm. 
