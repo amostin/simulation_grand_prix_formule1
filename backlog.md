@@ -23,7 +23,7 @@
 - [x] j'ai édité le readme pour expliquer les démarches que j'ai l'habitude d'entreprendre pour contribuer au projet
 - [x] j'ai établi un rapport de reflexion retrospective sur la version 1
 - [x] j'ai créé le backlog pour la version 2
-- [ ] j'ai merge master avec la version 1
+- [x] j'ai merge master avec la version 1
 - [ ] j'ai créé la branche version 2 avec une pull request citant le sprint backlog
 
 
