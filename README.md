@@ -6,10 +6,14 @@
 
 :point_right: Si vous ne connaissez rien de Github, veuillez vous instruire en lisant 
 # [le résumé des guides github](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE).
-# Etapes de production de contenu:
+# Contribuer au projet:
 :warning: **On ne commmit rien sur la branche master.** :warning: 
 
 > Les commits doivent tous passer par une pull request et être validé pour une fusion avec la branche master; Même si c'est par soi même. Cela pour garder un historique clair de notre travail.
 
 0. J'ai créé un rep avec une branche `version` et deux tableaux `Projects`.
-1. Pour contribuer au projet, il est nécéssaire de créer une branche nommée `<username-nom_de_la_fonction>` sur la branche `version`.
+1. Pour toute modifications, il est nécéssaire de créer une branche nommée `<username-nom_de_la_fonction>` sur la branche `version`.
+    :point_right: Créer une pull request directement en précisant le résultat attendu pour pouvoir merge
+2. Si on bloque sur une modification, on doit ajouter une `Issue` en selectionnant les deux tableaux `Projects`.
+3. Une fois satisfait, on mentionne des contributeurs dans la conversation de la `pull request` pour qu'ils review et approuve la fusion avec la branche version.
+4. Enfin, après que toutes les fonctionnalités de la version soit ajoutées à la branche `version`, on discute, on commente, on écrit un fichier de retrospective pour voir comment s'est passé la dernière itération et on met à jour le `backlog` pour pouvoir commencer une nouvelle version.
