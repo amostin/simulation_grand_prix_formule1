@@ -56,7 +56,9 @@
 > **Branche:** J'ai défini la structure de l'arbre tel qu'il a un tronc `master`, des branches `version` qui ont des branches `nom_de_la_fonction`.
 > * **master**: c’est les fichiers qui reprennent que les versions reviewée completement. Avant de merge, on discute pour voir si il y à encore des éléments à revoir et on documente un maximum.
 > *  **version X**: c’est la Xème version sur laquelle on veut chaque fonctionnalité proprement écrite. C’est donc sur celle la qu’on crée des branche et qu’on les merge.
-> * **username-nom_fc**t: Pour chaque fonctionnalité, on crée une branche avec une pull request qui précise le résultat attendu pour merge. On travaille dans la branche puis on demande des reviews pour merge avec version. ⚠️ Ajouter les cartes dans les tableaux `Projects` (voir plus bas)
+> * **username-nom_fc**t: Pour chaque fonctionnalité, on crée une branche avec une pull request qui précise le résultat attendu pour merge. On travaille dans la branche puis on demande des reviews pour merge avec version. 
+
+> ⚠️ Ajouter les cartes dans les tableaux `Projects` (voir plus bas)
 > --> J'ai l'habitude d'aller regarder dans `insight` dans `network`
 
 > **Pull Request:** Il faut en créer une directement quand on commence à travailler sur un code pour que les contributeurs puisse interagir et collaborer. Avec le sytème de Kaban automatique, toutes les pull request sont des cartes qui sont mise dans la colonne `en progression` du tableau `avancement du projet` à condition qu'on sélectionne le tableau dans la sidebar de la pull request. Si on n'a pas sélectionné le tableau, on peut toujours aller dans `Projects` et drag drop la carte qui par contre est d'office en suggestion si il s'agit d'une pull request.
