@@ -12,7 +12,7 @@
 > Les commits doivent tous passer par une pull request et être validé pour une fusion avec la branche master; Même si c'est par soi même. Cela pour garder un historique clair de notre travail.
 
 0. J'ai créé ce repository avec une branche `version` et deux tableaux `Projects`.
-1. Pour toute modifications, il est nécéssaire de créer une branche nommée `<username-nom_de_la_fonction>` sur la branche `version`.
+1. Pour toute modifications, il est nécéssaire de sélectionner la `pull request` et cliquer sur la branche `version` pour ensuite créer une branche nommée `<username-nom_de_la_fonction>` et y faire ses modifcations.
     :point_right: Créer une pull request directement en précisant le résultat attendu pour pouvoir merge.
 2. Si on bloque sur une modification, on doit ajouter une `Issue` en selectionnant les deux tableaux `Projects`.
 3. Une fois satisfait, on mentionne des contributeurs dans la conversation de la `pull request` pour qu'ils review et approuve la fusion avec la branche version.
