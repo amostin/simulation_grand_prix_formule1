@@ -4,36 +4,20 @@
 
 # Prérequis:
 
+:point_right: Si vous ne connaissez rien de Github, veuillez vous instruire en lisant 
+# [le résumé des guides github](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE).
+# Contribuer au projet:
 :warning: **On ne commmit rien sur la branche master.** :warning: 
 
 > Les commits doivent tous passer par une pull request et être validé pour une fusion avec la branche master; Même si c'est par soi même. Cela pour garder un historique clair de notre travail.
 
-:point_right: Le minimum de ce que je sais sur l'organisation d'un projet sur github se trouve dans [ce fichier](https://drive.google.com/open?id=1gvOVPevHNjXMufL_EpnSRNU-TSSCz56bsf2Nkz90PwE).
+0. J'ai créé ce repository avec une branche `version` et deux tableaux `Projects`.
+1. Pour toute modifications, il est nécéssaire de créer une branche nommée `<username-nom_de_la_fonction>` sur la branche `version`.
+    :point_right: Créer une pull request directement en précisant le résultat attendu pour pouvoir merge.
+2. Si on bloque sur une modification, on doit ajouter une `Issue` en selectionnant les deux tableaux `Projects`.
+3. Une fois satisfait, on mentionne des contributeurs dans la conversation de la `pull request` pour qu'ils review et approuve la fusion avec la branche version.
+4. Enfin, après que toutes les fonctionnalités de la version soit ajoutées à la branche `version`, on discute, on commente, on écrit un fichier de retrospective pour voir comment s'est passé la dernière itération et on met à jour le `backlog` pour pouvoir commencer une nouvelle version après avoir merge celle ci avec `master`.
 
-# Etapes de production de contenu:
-1. On va voir les tableau dans l'onglet `Projects` pour savoir où on en est et mettre la ou les taches dans la ou les bonnes colonnes. 
-> Je pense que les cartes se mettent automatiquement en proposition dans le tableau mais qu'il faut qu'on les mettent nous même dans la colonne à faire ou en progression pour qu'elle navigue automatiquement. En tout cas je viens de tester que si on met une carte dans `validation` elle bouge automatiquement vers `done` quand je merge mais si je crée une pull request, il me propose juste de mettre la carte dans une colonne. 
-2. On crée une branche qui sera nommée selon le code que l'on veut produire.
-2. On crée/modifie le fichier.
-3. On prend soin de titrer chaque commit en quelque mots bien compréhensible avec une description si besoin
-4. Si on bloque sur quoi que ce soit, on ouvre une issue en décrivant le nom du problème, le contexte, le résultat attendu et le résultat obtenu. Ne pas hésiter à enrichir ce genre de contenu (commit, issues, pull request) avec des étiquettes, mention, etc.
-5. Si le code est fonctionel, on crée une pull request en mentionnant les personnes qui s'intéressent au projet.
-6. Si la request est acceptée, on merge la branche sur la master et on delete la branche.
-> Il est possible de modifier directement un fichier de la branche master puis créer une branche avec cette modif au moment du commit. Cest facile et ça envoi direct le commit dans les pull request, ce qui envoi une notif et met les tableaux de gestion de projet à jour.
-# Gestion du projet
-**Voir l'onglet `Projects` pour accéder:**
-* Au tableau avancement qui répertorie les `Travaux à faire`, les `Travaux en cours` et `Travaux fini`.
-* Au tableau de gestion de bug qui répertorie les `Bugs à trier`, les `Bugs important`, les `Bugs moins important` et les bugs résolus.
-> Dans le tableau Kaban automatisé avec review:
-> * Les nouvelles issues arrivent dans la colonne `To Do` 
-> * Les nouvelles pull request, les rouvertes et les issues rouvertes arrivent dans la colonne `In progress` 
-> * Les issues fermée, pull request fusionée ou fusionnée sans validation arrivent dans la colonne `Done`
-> * Si qqu demande des changement dans une pull request, la carte va dans review in progress
+# Outils:
 
-> Dans le tableau triage de bug:
-> * Les issues nouvelles et réouvertes arrivent dans `To Do`
-> * Les issues fermée, pull request fusionée ou fusionnée sans validation arrivent dans la colonne `Done`
-# En résumé, pour les cartes projects:
-* Au moment du commit, il faut sélectionner le tableau dans lequel la carte doit être ajoutée.
-* Prendre l'habitude d'aller tout le temps vérifier que les tableaux sont à jour. 
-* On commente un max les issues et pull request
+[CLION](https://linuxhint.com/install_jetbrains_clion_ubuntu/) c'est un super IDE similaire a php ou webstorm. 
