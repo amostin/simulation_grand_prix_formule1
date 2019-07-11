@@ -24,7 +24,7 @@
 - [x] j'ai établi un rapport de reflexion retrospective sur la version 1
 - [x] j'ai créé le backlog pour la version 2
 - [x] j'ai merge master avec la version 1
-- [ ] j'ai créé la branche version 2 avec une pull request citant le sprint backlog
+- [x] j'ai créé la branche version 2 avec une pull request citant le sprint backlog
 
 
 # sprint backlog
