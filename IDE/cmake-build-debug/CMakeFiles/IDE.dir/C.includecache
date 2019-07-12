@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/amb/Bureau/OS_TP/simulationGP/IDE/main.c
+stdio.h
+-
+time.h
+-
+stdlib.h
+-
+unistd.h
+-
+
