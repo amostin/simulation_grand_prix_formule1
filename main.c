@@ -22,6 +22,8 @@ int numTour = 1;
 
 int tempsTotal;
 
+int nbrTour = 15;
+
 
         //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max
         int genere_sec_entre_min_max(int min, int max) {
@@ -136,7 +138,7 @@ int main (int argc, char *argv[]) {
 
     //on affiche 5 tableau different sans quon ai l'impression qu'il s'efface et se réaffiche
 
-    for(numTour= 1; numTour< 16; numTour++){
+    for(numTour= 1; numTour <= nbrTour; numTour++){
         //regex. equivalent de clear pour refresh la console
         if (sortie == 0) {
             printf("\e[1;1H\e[2J");
@@ -146,6 +148,7 @@ int main (int argc, char *argv[]) {
             return(0);
         }
     }
+    printf("Fin de la course\n");
 
     //retourne un chiffre car c'est ce que prédit le int devant main()
     return(0);
