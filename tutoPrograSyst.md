@@ -75,4 +75,17 @@ Les programme initial lance le process (PID = 1) qui lance tout les autres (dont
 * renvoi PID du fils fini ou -1 si erreur
 * bloque le père qui appelle tant que le fils na pas fini
 * :warning: il faut mettre autant de `wait()` qu'il y a de fils
-* [Dernier code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1515141)
+* [Dernier code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1515141) à ce moment je suis sensé savoir faire tourner deux voitures synchronisée et protegée des erreurs
+## Rappel args je vais pas m'y attarder
+## PATH
+* contient les chemin vers excutable/script qui permet d'executer la commande
+* `echo $Path`
+> Je pense pas que c'est super utile malgré que ça permet de trouver les executable je vois pas pourquoi je devrais recup home ou pwd ou shell
+## exec()
+* `int execv(const char *path, char *const argv[]);`
+* utile à changer le code source d'un programme (avec args) sans changer le PID
+* [code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514464-executer-un-programme#/id/r-1515257) qui sert à faire tourner le process fils qui analyse le disque et le pere qui affiche le texte qui confirme que c'est ok
+## system()
+* :warning: ***A NE JAMAIS UTILISER CAR FAILLE DE SECURITE IMPORTANTE***
+* `int system(const char *command);`
+* utile à changer le code source d'un programme (***sans*** args) sans changer le PID
