@@ -89,3 +89,32 @@ Les programme initial lance le process (PID = 1) qui lance tout les autres (dont
 * :warning: ***A NE JAMAIS UTILISER CAR FAILLE DE SECURITE IMPORTANTE***
 * `int system(const char *command);`
 * utile à changer le code source d'un programme (***sans*** args) sans changer le PID
+### THREAD
+> *Le thread principal* execute le main()
+* C'est un processus mais en plus rapide et moins compliqué
+* `#include <pthread.h>`
+* `int pthread_create(pthread_t * thread, pthread_attr_t * attr, void *(*start_routine) (void *), void *arg);`
+* `void pthread_exit(void *ret);`
+* `int pthread_join(pthread_t th, void **thread_return);`
+## MUTEX
+> Si deux thread veulent acceder à la même *variable* (dans la mémoire partagée), il faut définir l'ordre de passage.
+* le *muex* est une variable qui verouille la mem partagée
+  * état `disponible`
+  * état `verouillé`
+  * Pour ces état doivent être accessible de n'importe où dans le programme donc on crée une struct:
+  ```C
+  typedef struct data {
+    int var; //var glob ?
+    pthread_mutex_t mutex; //verrouillé ou dispo
+    } data;
+  ```
+  * Initialisation: `data new_data; new_data.mutex = PTHREAD_MUTEX_INITIALIZER;`
+  * Verrou du matux: `int pthread_mutex_lock(pthread_mutex_t *mut);`
+  * Deverrou: `int pthread_mutex_unlock(pthread_mutex_t *mut);`
+  * Destruction mutex: `int pthread_mutex_destroy(pthread_mutex_t *mut);`
+## CONDITIONS
+* Défini *l'attente*. Qui s'arrete quand un autre thread valide la condition
+* Initialisation: `pthread_cond_t nomCondition = PTHREAD_COND_INITIALIZER;`
+* Attente grace au mutex: `int pthread_cond_wait(pthread_cond_t *nomCondition, pthread_mutex_t *nomMutex);`
+* Réveil quand mutex libre: `int pthread_cond_signal(pthread_cond_t *nomCondition);`
+* [code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514567-les-threads#/id/r-1515355) Qui affiche un compteur qui augmente; en notifiant à chaque fois qu'on à depassé un seuil.
