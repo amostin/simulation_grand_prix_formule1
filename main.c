@@ -6,6 +6,7 @@
 #include <stdlib.h>
 //utile au sleep()
 #include <unistd.h>
+#include <string.h>
 
 //compteur pour les differentes voitures
 int num = 1;
@@ -17,7 +18,9 @@ int sortie = 0;
 //int pour la valeur original du meilleur temps (facilite la comparaison)
 int bestour = 999;
 
-int numTour = 0;
+int numTour = 1;
+
+int tempsTotal;
 
 
         //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max
@@ -66,12 +69,24 @@ int numTour = 0;
             //printf("%s", valeurs_string);
         }
 
-        void convert_sec_min(int sec){
-            int combien_de_minute_dans_sec = sec/60;
-            sec -= combien_de_minute_dans_sec*60;
+    char *timeFormat(int duree) {
+        int minutes = duree/60;
+        duree -= minutes * 60;
 
-            printf("%d min %d sec\n", combien_de_minute_dans_sec, sec);
-        }
+
+        static char minutesChar[30];
+        char secondesChar[10];
+
+        sprintf(minutesChar, "%d", minutes);
+        sprintf(secondesChar, "%d", duree);
+
+        strcat(minutesChar, "min");
+        strcat(minutesChar, secondesChar);
+        //printf("%s\n", minutesChar);
+        //printf("%d\n", minutes);
+        //printf("%d\n", secondes);
+        return minutesChar;
+    }
 
     //affiche les titres des colonnes avec separatuers et insere des valeurs dedans
     void affiche(){
@@ -79,8 +94,8 @@ int numTour = 0;
         //name|s1|s2|s3|tour|bestour|pit|out
         //----|--|--|--|----|-------|---|---
         //22|38|37|41|116|105|no|no
-        char titres_colonnes[] = "num|s1|s2|s3|tour|bestour|pit|out|numTour\n";
-        char separateur_titres_valeurs[] = "---|--|--|--|----|-------|---|---|-------\n";
+        char titres_colonnes[] = "num|s1|s2|s3|tour|bestour|pit|out|numTour|Tot\n";
+        char separateur_titres_valeurs[] = "---|--|--|--|----|-------|---|---|-------|---\n";
 
 
         int s1 = genere_sec_entre_min_max(35, 40);
@@ -95,14 +110,15 @@ int numTour = 0;
         else {sortie = 0;}
         //je veux calculer s1+s2+s3 et retourner le resultat
         int tour = calculTour(s1, s2, s3);
-        //en enregistre ici le meilleur temps
+        //on enregistre ici le meilleur temps
         if (tour <= bestour){
             bestour = tour;
         }
-        //convert_sec_min(tour);
+        tempsTotal += tour;
+        //timeFormat(tempsTotal);
         printf("%s", titres_colonnes);
         printf("%s", separateur_titres_valeurs);
-        printf("%d  |%d|%d|%d|%d |%d    |%d  |%d  |%d      \n", num, s1, s2, s3, tour, bestour, arrets, sortie, numTour);
+        printf("%d  |%d|%d|%d|%d |%d    |%d  |%d  |%d      |%s\n", num, s1, s2, s3, tour, bestour, arrets, sortie, numTour, timeFormat(tempsTotal));
 
 
 
@@ -111,6 +127,8 @@ int numTour = 0;
         string_pour_fichier(titres_colonnes, separateur_titres_valeurs, num, s1, s2, s3, tour, bestour);
     }
 
+
+
 int main (int argc, char *argv[]) {
     //petit rappel argc argv comme ça on sais comment gerer les parametre du programme quand on en aura besoin
     if (argc == 1){printf("Le seul argument est le: %s", argv[argc-1]); return 69;}
@@ -118,7 +136,7 @@ int main (int argc, char *argv[]) {
 
     //on affiche 5 tableau different sans quon ai l'impression qu'il s'efface et se réaffiche
 
-    for(numTour= 0; numTour< 15; numTour++){
+    for(numTour= 1; numTour< 16; numTour++){
         //regex. equivalent de clear pour refresh la console
         if (sortie == 0) {
             printf("\e[1;1H\e[2J");
