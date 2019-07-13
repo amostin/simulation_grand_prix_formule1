@@ -33,7 +33,46 @@ Les programme initial lance le process (PID = 1) qui lance tout les autres (dont
 > zombie c’est quand le pere na pas fini
 (du coup je sais que le pere peut lire son code avant le fils ce qui crée un zombie car le fils ne sais pas lire le retour du père ?)
 
-Dans la table des process, il y a un block (PCB) qui contient [les caractéristiques](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1514901) utiles à la reprise de l'exécution d’un processus (d’un programme)
+* Dans la table des process, il y a un block (PCB) qui contient [les caractéristiques](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1514901) utiles à la reprise de l'exécution d’un processus (d’un programme)
+* `ps aux` sert a voir tout les process, détaillé, dont les démons du coup ya [ces infos](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1514919)
+## Création d'un nouveau processus
+> :warning: PAS METTRE DE FORK DANS BOUCLE :warning:
+* `#include <unistd.h>` indispensable pour la plupart des appels sys
+* `fork()` 
+  * Crée un process ayant le même code que l'appelant mais ayant une valeur de retour différente (0 pour le fils et PID du fils pour le père) ce qui permet d'executer des codes différents pour le père et le fils
+    * alloue Control Block dans table process
+    * copie PCB du père sauf PID et PPID
+    * alloue PID au fils
+    * associe code au p fils et attend que le fils demande la pile et seg donnée pour lui allouer
+    * état du process = execution
+      
+  * Retourne pid_t qui est la valeur du pid si on des dans le fils (0) ou dans le pere (pid du fils) ou dans erreur (-1)
+    * int
+    * `#include <unistd.h>`
+    * `#include <sys/types.h>`
+    * `pid_t fork(void);`
+    * `pid_t getpid(void);`
+    * `pid_t getppid(void);`
+    * `uid_t getuid(void);`
+    * `gid_t getgid(void);`
+  * [code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1514975)
+  * [Résultat output](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1514977)
+  * `type nouvelle_variable = (type) ancienne_variable;` type pid_t pas affichable avec printf donc on converti pour pouvoir afficher avec "%d"
+### Les processus peuvent se terminer de deux façon
+1. `return` dans le main
+2. `void exit(status);` qui permet de quitter le programme n'importe quand
 
- 
-FORK()
+**à la fin du programme `return` ou `exit()` on peut executer encore du code**
+* `int atexit(void (*function) (void));` 
+  * renvoi -1 si fct fail ou 0 si réussite
+  * on peut enchainer les appel a atexit() et le retour des fct seront affichée en ordre inverse
+* `int on_exit(void (*function) (int, void *), void *arg);`
+  * renvoi -1 si fct fail ou 0 si réussite
+  * 1er arg cest le code de retour correspondant a la terminsaison
+  * 2eme arg est l'argument à passer à la fonction de terminaison (datas classment final ?)
+## Synchronisation entre père et fils
+* `pid_t wait(int *status);`
+* renvoi PID du fils fini ou -1 si erreur
+* bloque le père qui appelle tant que le fils na pas fini
+* :warning: il faut mettre autant de `wait()` qu'il y a de fils
+* [Dernier code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1515141)
