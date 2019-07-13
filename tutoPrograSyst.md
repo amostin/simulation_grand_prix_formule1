@@ -118,3 +118,38 @@ Les programme initial lance le process (PID = 1) qui lance tout les autres (dont
 * Attente grace au mutex: `int pthread_cond_wait(pthread_cond_t *nomCondition, pthread_mutex_t *nomMutex);`
 * Réveil quand mutex libre: `int pthread_cond_signal(pthread_cond_t *nomCondition);`
 * [code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514567-les-threads#/id/r-1515355) Qui affiche un compteur qui augmente; en notifiant à chaque fois qu'on à depassé un seuil.
+### COMMUNICATION INTER-PROCESSUS
+## LES PIPES (tube)
+* Canal de communication entre processus 
+> il faut créer deux variable pour utiliser le tube: une qui lit et l'autre qui écrit dans le tube
+* *L'entrée du tube* c'est celui qui écrit dans le tube
+* *La sortie de tube* c'est celui qui lit dans le tube
+* `int pipe(int descripteur[2]);` descripteur[0] = lecture, descripteur[1] = écriture
+:warning: **Créer le tube avant le fork pour que les enfant ai accès au tube** :warning:
+* ECRITURE: `ssize_t write(int entreeTube, const void *elementAEcrire, size_t nombreOctetsAEcrire);`
+* LECTURE: `ssize_t read(int sortieTube, void *elementALire, size_t nombreOctetsALire);`
+* FERMER (pour pas accès simultané au tube): `int close(int descripteur);`
+* [code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514724-les-tubes#/id/r-1515429) qui affiche toutes les étapes de la comm à travers le tube (fermeture entree sortie, pere envoi message, fils recoit et affiche)
+### Lier le tube avec std in ou out au lieu de hardcoder l'es infos à lire ou écrire dans le code
+* `int dup2(int ancienDescripteur, int nouveauDescripteur);`
+### TUBES nommés
+> On peut y acceder de partout dans le programme contrairement au tube simple qui établi un dialogue juste entre deux process
+> :warning: le tube nommé est en fait un fichier 
+> * renvoi -1 si fct fail ou 0 si réussite du errno peut [intervenir](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514724-les-tubes#/id/r-1515483)
+* Création du fichers au nom et mode ouvertue 124:`int mkfifo (const char* nom, mode_t mode);`
+  * exemple: 
+  ```C
+  if (mkfifo(("essai.fifo"), 0760) == -1)
+  {
+     fprintf(stderr, "Erreur de création du tube");
+	  exit(EXIT_FAILURE);
+  }
+  ```
+* Ouvrir le tube nommé: `int open (const char* cheminFichier, int options);`
+  * exemple: `descripteur[1] = open("essai.fifo", O_WRONLY);`
+
+## Écrivez deux programmes indépendants : un écrit un message dans un tube nommé, et l'autre le lit, puis l'affiche. Exécutez ces deux programmes en même temps.
+* [code 1er prog](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514724-les-tubes#/id/r-1515508)
+* [code 2eme prog](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514724-les-tubes#/id/r-1515510)
+
+> :point_right: Il nous reste encore à maîtriser les signaux, les sémaphores, et bien d'autres choses 
