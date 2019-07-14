@@ -181,6 +181,7 @@ void child_process(void){
 
 int main () {
     for (int i=0; i<5; i++) {
+        sleep(2);
         num++;
         if (fork() == 0) {
 
