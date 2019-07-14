@@ -62,6 +62,12 @@ void child_process(void)
     } else {
         printf("Secteur 1: %d\n", genere_sec_entre_min_max(minimum, maximum));
     }*/
+    
+    char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
+    char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
+    printf("%s", titres_colonnes);
+    printf("%s", separateur_titres_valeurs);
+    
     printf("Secteur 1: %d\n", genere_sec_entre_min_max(minimum, maximum));
     printf("Secteur 2: %d\n", genere_sec_entre_min_max(minimum, maximum));
     printf("Secteur 3: %d\n", genere_sec_entre_min_max(minimum, maximum));
