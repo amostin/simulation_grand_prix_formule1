@@ -14,6 +14,8 @@
 // variable globale pour pouvoir changer changer l'intervalle facilement
 int minimum = 35;
 int maximum = 40;
+//compteur pour les differentes voitures
+int num = 1;
 
 //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max
 int genere_sec_entre_min_max(int min, int max) {
@@ -34,24 +36,6 @@ pid_t create_process(void){
     return pid;
 }
 
-/* La fonction child_process effectue les actions du processus fils */
-void child_process(void){
-    //on initialise le random pour chaque process
-    srand(getpid());
-    printf(" Nous sommes dans le fils !\n");
-
-    char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
-    char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
-
-    int s1 = genere_sec_entre_min_max(minimum, maximum);
-    int s2 = genere_sec_entre_min_max(minimum, maximum);
-    int s3 = genere_sec_entre_min_max(minimum, maximum);
-
-    printf("%s", titres_colonnes);
-    printf("%s", separateur_titres_valeurs);
-    printf("num|%d|%d|%d|\n", s1, s2, s3);
-}
-
 /* La fonction father_process effectue les actions du processus père */
 void father_process(int child_pid){
     //indique l'etat si error ou terminaison normale
@@ -69,11 +53,30 @@ void father_process(int child_pid){
 
     printf("%s", titres_colonnes);
     printf("%s", separateur_titres_valeurs);
-    printf("num|%d|%d|%d|\n", s1, s2, s3);
+    printf("%d  |%d|%d|%d|\n", num, s1, s2, s3);
 
     if (wait(&status) == -1) {perror("wait :");exit(EXIT_FAILURE);}
     if (WIFEXITED(status)) {printf(" Terminaison normale du processus fils.\n Code de retour : %d.\n", WEXITSTATUS(status));}
     if (WIFSIGNALED(status)) {printf(" Terminaison anormale du processus fils.\n Tué par le signal : %d.\n", WTERMSIG(status));}
+}
+
+/* La fonction child_process effectue les actions du processus fils */
+void child_process(void){
+    //on initialise le random pour chaque process
+    srand(getpid());
+    printf(" Nous sommes dans le fils !\n");
+
+    char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
+    char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
+
+    num++;
+    int s1 = genere_sec_entre_min_max(minimum, maximum);
+    int s2 = genere_sec_entre_min_max(minimum, maximum);
+    int s3 = genere_sec_entre_min_max(minimum, maximum);
+
+    printf("%s", titres_colonnes);
+    printf("%s", separateur_titres_valeurs);
+    printf("%d  |%d|%d|%d|\n", num, s1, s2, s3);
 }
 
 int main(void){
