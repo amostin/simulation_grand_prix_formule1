@@ -65,9 +65,6 @@ int genere_sec_entre_min_max(int min, int max) {
 }
 
 void affiche(){
-    char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
-    char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
-
 
     int s1 = genere_sec_entre_min_max(minimum, maximum);
     int s2 = genere_sec_entre_min_max(minimum, maximum);
@@ -92,23 +89,20 @@ void affiche(){
     //on calcule le temps total
     tempsTotal += tour;
 
-    printf("%s", titres_colonnes);
-    printf("%s", separateur_titres_valeurs);
-
     printf("%d  |%d|%d|%d|", num, s1, s2, s3);
 
     //petite condition pour eviter le decalage sur le temps du tour
-    if (strlen(timeFormat(tour)) == 6) {printf("%s|", timeFormat(tour));} 
+    if (strlen(timeFormat(tour)) == 6) {printf("%s|", timeFormat(tour));}
     else if (strlen(timeFormat(tour)) < 6) {printf("%s |", timeFormat(tour));}
 
     //petite condition pour eviter le decalage sur le meilleur temps
-    if (strlen(timeFormat(bestour)) == 6) {printf("%s |", timeFormat(bestour));} 
+    if (strlen(timeFormat(bestour)) == 6) {printf("%s |", timeFormat(bestour));}
     else if (strlen(timeFormat(bestour)) < 6) {printf("%s  |", timeFormat(bestour));}
 
     printf("%d  |%d  |", arrets, sortie);
 
     //petite condition pour eviter le decalage avec les nombres de tours
-    if (numTour/10 < 1) {printf("%d      |", numTour);} 
+    if (numTour/10 < 1) {printf("%d      |", numTour);}
     else {printf("%d     |", numTour);}
 
     printf("%s\n", timeFormat(tempsTotal));
@@ -132,8 +126,11 @@ void father_process(int child_pid){
     int status;
     //on initialise le random pour chaque process
     srand(getpid());
-    printf(" Nous sommes dans le père !\n");
 
+    char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
+    char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
+    printf("%s", titres_colonnes);
+    printf("%s", separateur_titres_valeurs);
     affiche();
 
     if (wait(&status) == -1) {perror("wait :");exit(EXIT_FAILURE);}
@@ -145,7 +142,7 @@ void father_process(int child_pid){
 void child_process(void){
     //on initialise le random pour chaque process
     srand(getpid());
-    printf(" Nous sommes dans le fils !\n");
+    //printf(" Nous sommes dans le fils !\n");
 
     affiche();
 }
