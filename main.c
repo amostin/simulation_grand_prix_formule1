@@ -17,7 +17,7 @@
 int minimum = 35;
 int maximum = 40;
 //compteur pour les differentes voitures
-int num = 1;
+int num = 0;
 //des int sont crees comme compteur pour les arrets ou sortie de route
 int arrets = 0;
 int sortie = 0;
@@ -132,7 +132,9 @@ void father_process(int child_pid){
     //printf("%s", titres_colonnes);
     //printf("%s", separateur_titres_valeurs);
     for(int i = 0; i < 10; i++) {
+
         affiche();
+        numTour++;
     }
     if (wait(&status) == -1) {perror("wait :");exit(EXIT_FAILURE);}
     //if (WIFEXITED(status)) {printf(" Terminaison normale du processus fils.\n Code de retour : %d.\n", WEXITSTATUS(status));}
@@ -145,29 +147,50 @@ void child_process(void){
     srand(getpid());
     //printf(" Nous sommes dans le fils !\n");
 
-    for(int i = 0; i < 10; i++) {
-        affiche();
-    }}
+    //printf("%d", num);
+    for(int i = 0; i < 5; i++) {
 
-int main(void){
-    //for(int i = 0; i < 3; i++){
+        affiche();
+        numTour++;
+
+    }
+}
+
+/*int main(void){
+    for(int i = 0; i < 3; i++){
         pid_t pid = create_process();
 
         switch (pid) {
-            /* Si on a une erreur irrémédiable (ENOMEM dans notre cas) */
+            // Si on a une erreur irrémédiable (ENOMEM dans notre cas)
             case -1:
                 perror("fork");
                 return EXIT_FAILURE;
                 break;
-                /* Si on est dans le fils */
+                // Si on est dans le fils
             case 0:
                 child_process();
                 break;
-                /* Si on est dans le père */
+                // Si on est dans le père
             default:
-                father_process(pid);
+                //father_process(pid);
                 break;
         }
-    //}
+    }
     return EXIT_SUCCESS;
+}*/
+
+int main () {
+    for (int i=0; i<5; i++) {
+        num++;
+        if (fork() == 0) {
+
+            printf("Voiture numero : %d\n", num);
+            child_process();
+
+            exit(0);
+        }
+    }
+    for (int i=0; i<5; i++) {
+        wait(NULL);
+    }
 }
