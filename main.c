@@ -131,8 +131,9 @@ void father_process(int child_pid){
     //char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
     //printf("%s", titres_colonnes);
     //printf("%s", separateur_titres_valeurs);
-    affiche();
-
+    for(int i = 0; i < 10; i++) {
+        affiche();
+    }
     if (wait(&status) == -1) {perror("wait :");exit(EXIT_FAILURE);}
     //if (WIFEXITED(status)) {printf(" Terminaison normale du processus fils.\n Code de retour : %d.\n", WEXITSTATUS(status));}
     if (WIFSIGNALED(status)) {printf(" Terminaison anormale du processus fils.\n Tué par le signal : %d.\n", WTERMSIG(status));}
@@ -144,11 +145,12 @@ void child_process(void){
     srand(getpid());
     //printf(" Nous sommes dans le fils !\n");
 
-    affiche();
-}
+    for(int i = 0; i < 10; i++) {
+        affiche();
+    }}
 
 int main(void){
-    for(int i = 0; i < 3; i++){
+    //for(int i = 0; i < 3; i++){
         pid_t pid = create_process();
 
         switch (pid) {
@@ -166,6 +168,6 @@ int main(void){
                 father_process(pid);
                 break;
         }
-    }
+    //}
     return EXIT_SUCCESS;
 }
