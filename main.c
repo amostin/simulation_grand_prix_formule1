@@ -13,6 +13,19 @@
 
 //Pour éviter implicit declaration of function invalid in C99
 int genere_sec_entre_min_max(int min, int max);
+//fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max
+int genere_sec_entre_min_max(int min, int max) {
+    //un temps aléatoire
+    time_t t;
+    //generation d'un nouveau nbre aleatoire parce que sinon ya que le premier qui est aleatoire puis le reste est le meme
+    srand((unsigned) time(&t));
+    //le % defini le max puis le calcul defini le min
+    int sec = rand() % (max + 2 - min) + min;
+    //affiche le nombre contenu dans sec
+    printf("%d", sec);
+    //retourne le chiffre aléatoire entre min et max
+    return sec;
+}
 
 /* La fonction create_process duplique le processus appelant et retourne
    le PID du processus fils ainsi créé */
@@ -39,20 +52,6 @@ void child_process(void)
     //laisse le temps pour kill pid dans un autre terminal jle laisse au cas où ça serait utile
     //sleep(20);
 
-    //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max
-    int genere_sec_entre_min_max(int min, int max) {
-        //un temps aléatoire
-        time_t t;
-        //generation d'un nouveau nbre aleatoire parce que sinon ya que le premier qui est aleatoire puis le reste est le meme
-        srand((unsigned) time(&t));
-        //le % defini le max puis le calcul defini le min
-        int sec = rand() % (max + 2 - min) + min;
-        //affiche le nombre contenu dans sec
-        printf("%d", sec);
-        //retourne le chiffre aléatoire entre min et max
-        return sec;
-    }
-
     printf("Secteur 1: %d\n", genere_sec_entre_min_max(35, 40));
 }
 
@@ -64,6 +63,7 @@ void father_process(int child_pid)
     printf(" Nous sommes dans le père !\n"
            " Le PID du fils est %d.\n"
            " Le PID du père est %d.\n", (int) child_pid, (int) getpid());
+    printf("Secteur 1: %d\n", genere_sec_entre_min_max(35, 40));
 
     if (wait(&status) == -1) {
         perror("wait :");
