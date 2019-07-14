@@ -10,7 +10,7 @@
 #include <sys/types.h>
 /* Pour wait() */
 #include <sys/wait.h>
-
+// variable globale pour pouvoir changer changer l'intervalle facilement
 int minimum = 35;
 int maximum = 40;
 //Pour éviter implicit declaration of function invalid in C99
@@ -18,7 +18,7 @@ int maximum = 40;
 //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max
 int genere_sec_entre_min_max(int min, int max) {
     //un temps aléatoire
-    time_t t;
+    //time_t t;
     //generation d'un nouveau nbre aleatoire parce que sinon ya que le premier qui est aleatoire puis le reste est le meme
     //srand((unsigned) time(&t));
     //le % defini le max puis le calcul defini le min
@@ -48,6 +48,7 @@ pid_t create_process(void)
 /* La fonction child_process effectue les actions du processus fils */
 void child_process(void)
 {
+    //on initialise le random pour chaque process
     srand(getpid());
     printf(" Nous sommes dans le fils !\n"
            " Le PID du fils est %d.\n"
@@ -69,8 +70,9 @@ void child_process(void)
 /* La fonction father_process effectue les actions du processus père */
 void father_process(int child_pid)
 {
+    //indique l'etat si error ou terminaison normale
     int status;
-
+    //on initialise le random pour chaque process
     srand(getpid());
 
     printf(" Nous sommes dans le père !\n"
@@ -80,21 +82,10 @@ void father_process(int child_pid)
     printf("Secteur 2: %d\n", genere_sec_entre_min_max(minimum, maximum));
     printf("Secteur 3: %d\n", genere_sec_entre_min_max(minimum, maximum));
 
-    if (wait(&status) == -1) {
-        perror("wait :");
-        exit(EXIT_FAILURE);
-    }
 
-    if (WIFEXITED(status)) {
-        printf(" Terminaison normale du processus fils.\n"
-               " Code de retour : %d.\n", WEXITSTATUS(status));
-    }
-
-    if (WIFSIGNALED(status)) {
-        printf(" Terminaison anormale du processus fils.\n"
-               " Tué par le signal : %d.\n", WTERMSIG(status));
-    }
-
+    if (wait(&status) == -1) {perror("wait :");exit(EXIT_FAILURE);}
+    if (WIFEXITED(status)) {printf(" Terminaison normale du processus fils.\n Code de retour : %d.\n", WEXITSTATUS(status));}
+    if (WIFSIGNALED(status)) {printf(" Terminaison anormale du processus fils.\n Tué par le signal : %d.\n", WTERMSIG(status));}
 }
 
 int main(void)
