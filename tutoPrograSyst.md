@@ -76,6 +76,7 @@ Les programme initial lance le process (PID = 1) qui lance tout les autres (dont
 * bloque le père qui appelle tant que le fils na pas fini
 * :warning: il faut mettre autant de `wait()` qu'il y a de fils
 * [Dernier code complet](https://openclassrooms.com/fr/courses/1513891-la-programmation-systeme-en-c-sous-unix/1514339-les-processus#/id/r-1515141) à ce moment je suis sensé savoir faire tourner deux voitures synchronisée et protegée des erreurs
+> ya sleep(20) pour qu'on puisse kill pid dans un autre term et voir la terminaisn anormale du programme
 ## Rappel args je vais pas m'y attarder
 ## PATH
 * contient les chemin vers excutable/script qui permet d'executer la commande
