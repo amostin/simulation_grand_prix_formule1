@@ -127,10 +127,10 @@ void father_process(int child_pid){
     //on initialise le random pour chaque process
     srand(getpid());
 
-    char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
-    char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
-    printf("%s", titres_colonnes);
-    printf("%s", separateur_titres_valeurs);
+    //char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
+    //char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
+    //printf("%s", titres_colonnes);
+    //printf("%s", separateur_titres_valeurs);
     affiche();
 
     if (wait(&status) == -1) {perror("wait :");exit(EXIT_FAILURE);}
@@ -148,23 +148,24 @@ void child_process(void){
 }
 
 int main(void){
-    pid_t pid = create_process();
+    for(int i = 0; i < 2; i++){
+        pid_t pid = create_process();
 
-    switch (pid) {
-        /* Si on a une erreur irrémédiable (ENOMEM dans notre cas) */
-        case -1:
-            perror("fork");
-            return EXIT_FAILURE;
-            break;
-            /* Si on est dans le fils */
-        case 0:
-            child_process();
-            break;
-            /* Si on est dans le père */
-        default:
-            father_process(pid);
-            break;
+        switch (pid) {
+            /* Si on a une erreur irrémédiable (ENOMEM dans notre cas) */
+            case -1:
+                perror("fork");
+                return EXIT_FAILURE;
+                break;
+                /* Si on est dans le fils */
+            case 0:
+                child_process();
+                break;
+                /* Si on est dans le père */
+            default:
+                father_process(pid);
+                break;
+        }
     }
-
     return EXIT_SUCCESS;
 }
