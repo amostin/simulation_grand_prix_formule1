@@ -25,5 +25,25 @@
 - [x] j'ai créé le backlog pour la version 2
 - [x] j'ai merge master avec la version 1
 - [x] j'ai créé la branche version 2 avec une pull request citant le sprint backlog
-
+- [x]Readme f1
+- [x] Backlog version 2 f1
+- [x] Invit hymed et adrien
+- [x] Os théorie tuto jusqua process
+- [x] Initiation à la gestion de projet à travers github et ses différents outils.
+- [x] Appris thread et tube en c
+- [x] Test fork, ya bug
+- [x] affiche un nbre dans pere et fils
+- [x] affiche un nbre different dans pere et fils
+- [x] affiche toute les stat pour chacune des deux voitures
+- [x] Affiche les 20 voitures
+- [x] Update backlog, rapport avancement et retrospective
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
 
