@@ -1,47 +1,17 @@
-# rapport d’avancement
-
-- [x] J’ai créé un fichier qui reprend les demandes du client et me permet de les décomposer en tâches à faire.
-- [x] J’ai appris à utiliser les projets github.
-- [x] J’ai appris à utiliser les branches et les pull request et les issues 
-- [x] J’ai créé un repo github avec un projet contenant un tableau kaban et un tableau de gestion de bug 
-- [x] J’ai pris les consignes et créé le product backlog 
-- [x] Créer le release backlog 
-- [x] Créer le sprint backlog 
-- [x] Je sais manier CLion
-- [x] Je sais coder un main.c puis le compiler et l’executer
-- [x] Je sais générer un nombre aléatoire différent à chaque exécution du programme
-- [x] Je sais sortir le code du main pour le mettre dans une fonction
-- [x] Je sais appeler la fonction plusieurs fois pour faire des tests de cas particuliers
-- [x] je sais afficher les titre et valeur dans afficheur
-- [x] je sais ecrire le tableau dans un fichier
-- [x] je sais calculer laddition des secteurs
-- [x] je sais convertir des sec en minsec
-- [x] je sais rafraichir la console pour afficher en continu
-- [x] je sais generer des pit et out aleatoire avec respectivement 10% et 5% de chance
-- [x] le code de la version 1 est entièrement commenté
-- [x] j’ai validé ma structure de flux de travail
-- [x] j'ai édité le readme pour expliquer les démarches que j'ai l'habitude d'entreprendre pour contribuer au projet
-- [x] j'ai établi un rapport de reflexion retrospective sur la version 1
-- [x] j'ai créé le backlog pour la version 2
-- [x] j'ai merge master avec la version 1
-- [x] j'ai créé la branche version 2 avec une pull request citant le sprint backlog
-
-
-
 # sprint backlog
-> fin estimée au 18/07/2019
-### fork pour avoir un process afficheur et 20 pour voiture
-* rappel fork()
-    * afficher 21 ou 22 fois "une chaine"
-* afficher un seul nbre generé pour chaque process 
-* afficher la ligne entière pour chaque process 
-### stocker les infos generée par tout les process dans mem partagée
-> tâches à déterminer
-### tester la mem partagée et l'ajuster avec des semaphores
-> tâches à déterminer
-### afficher le tableau avec les 20 temps
-> tâches à déterminer
+> fin esperée le 18/07/2019 mais estimée au 01/08/2019
+* stocker les infos generée par tout les process dans mem partagée
+* tester la mem partagée et l'ajuster avec des semaphores
+* afficher le tableau avec les 20 temps 
 
+num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot
+---|--|--|--|------|-------|---|---|-------|---
+1  |35|41|37|1min53|1min53 |0  |0  |1      |1min53
+2  |38|40|38|1min56|1min56 |0  |0  |1      |1min56
+3  |38|40|37|1min55|1min55 |0  |0  |1      |1min55
+4  |38|35|41|1min54|1min54 |0  |0  |1      |1min54
+5  |40|35|39|1min54|1min54 |0  |0  |1      |1min54
+... JUSQUA 20
 
 # release backlog
 ## Version 1:
@@ -54,12 +24,15 @@
 
 ## Version 2:
 > on veut la même chose que la version 1 mais pour 20 voitures
-* fork pour avoir un process afficheur et 20 pour voiture
-* stocker les infos generée par tout les process dans mem partagée
-* tester la mem partagée et l'ajuster avec des semaphores
-* afficher le tableau avec les 20 temps 
+- [x] fork pour avoir un process afficheur et 20 pour voiture
 
 ## Version 3:
+> on veut pas spécialement de refresh avec les 15 tour pour chaque voiture mais au moins davoir les voiture classée pour un tour
+- [ ] stocker les infos generée par tout les process dans mem partagée
+- [ ] tester la mem partagée et l'ajuster avec des semaphores
+- [ ] afficher le tableau avec les 20 temps 
+
+## Version 4:
 > Tri synchrone et classement finaux stocké
 * classement selon tour complet, pit, out
 * stocker le best time tout le temps
@@ -70,7 +43,7 @@
 > * trié constamment pour que les meilleurs temps soit en haut
 > * n’affiche plus de temps si il est out ou pit. Remettre la voiture à sa place dès son retour du pit
 
-## Version 4:
+## Version 5:
 * écriture d’un makefile
 * écriture doc, rapport
 * perfectionner le code en le paramétrant et refactor
