@@ -128,12 +128,13 @@ void child_process(void){
 
     //on détermine pour combien de tour le child va s'executer
     for(int i = 0; i < nbrTour; i++) {
-        //on vérifie si la voiture n'est pas sortie de la route 
+        //on vérifie si la voiture n'est pas sortie de la route
         if (sortie == 0) {
             affiche();
             numTour++;
         } else if (sortie == 1) {
-            printf("La voiture est sortie de la route au tour numéro %d\n", numTour);
+            sleep(1);
+            printf("La voiture est sortie de la route au tour numéro %d\n", numTour - 1);
             exit(0);
         }
 
@@ -163,6 +164,7 @@ int main () {
         } else {
 
             father_process(pid);
+            sleep(1);
 
         }
     }
