@@ -127,7 +127,7 @@ void child_process(void){
     srand(getpid());
 
     //on détermine pour combien de tour le child va s'executer
-    for(int i = 0; i < 5; i++) {
+    for(int i = 0; i < nbrTour; i++) {
 
         affiche();
         numTour++;
