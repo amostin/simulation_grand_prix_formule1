@@ -124,18 +124,18 @@ num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot
 
 >  :octocat:  |   :octocat: | :octocat: 
 > ---------|-------------|-----------
-
-***EDIT: Nous ne consultons pas très souvent ce fichier mais il nous est d'une aide précieuse lors du passage d'une version à l'autre pour organiser les itérations.***
 > **Rapport d'avancement**|Cette section est dépendante du release backlog car elle contient la liste des chose à faire pour une version mais de façon encore plus décomposée. | 👍 
-
-***EDIT: J'ai décidé de déplacer cette partie dans un fichier à part car ce rapport est une liste brouillon de chose à faire et principalement faite. Non pas une infos pertinente concernant le futur du projet***
 > **Sprint Backlog**|Cette section est dépendante du release backlog car elle contient la liste des caractéristiques de la version que l'on veut produire. C'est, en général, de cette section que proviennent le nom des différentes branches de la version en cours.| :arrow_heading_up:
-
-***EDIT: Je n'ai pas eu une estimation réaliste de cette itéaration. Je pensais que nous devions traiter obligatoirement les fork, mem partagée et semaphore en même temps alors que la première étape ètait déjà de simplement avoir 20 processus. Et puis seulement traiter les infos renvoyées par ces processus***
 > **Release Backlog**|Cette section est dépendante du product backlog car elle contient la liste du product que l'on va décomposer en version avec un bref cadre des attentes à satisfaire à la fin de chaque version. Elle est pourtant écrite au dessus car nous voulons mettre les infos les plus simple au début du doc pour y accéder facilement.| :arrow_heading_up:
 > **Product Backlog**|C'est la premiere section créée. On y insère les infos globales pour déjà former une liste des attentes qu'il faudra satisfaire. Il s'agit ici de se mettre dans la peau du client et visualiser le résultat attendu: cela aidera à sélectionner les priorités !| :arrow_heading_up:
 
 > :warning: ***Nous voulons mettre les infos les plus simple au début du doc pour y accéder facilement et les plus complexe à la fin pour quand même pouvoir y jeter un coup d'oeil, histoire de vérifier qu'on suit bien la vision du projet.***
+
+***EDIT: Nous ne consultons pas très souvent ce fichier mais il nous est d'une aide précieuse lors du passage d'une version à l'autre pour organiser les itérations.***
+
+***EDIT: Je n'ai pas eu une estimation réaliste de cette itéaration. Je pensais que nous devions traiter obligatoirement les fork, mem partagée et semaphore en même temps alors que la première étape ètait déjà de simplement avoir 20 processus. Et puis seulement traiter les infos renvoyées par ces processus***
+
+***EDIT: J'ai décidé de déplacer la partie 'rapport d'avancement' dans un fichier à part car ce rapport est une liste brouillon de chose à faire et principalement faite. Non pas une infos pertinente concernant le futur du projet***
 
 > **DailyScrum:** C'est un fichier que je rempli tout les matins en répondant aux questions:
 > * Qu'ai-je fais hier ?
