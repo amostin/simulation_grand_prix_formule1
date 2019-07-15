@@ -1,0 +1,29 @@
+# rapport d’avancement
+
+- [x] J’ai créé un fichier qui reprend les demandes du client et me permet de les décomposer en tâches à faire.
+- [x] J’ai appris à utiliser les projets github.
+- [x] J’ai appris à utiliser les branches et les pull request et les issues 
+- [x] J’ai créé un repo github avec un projet contenant un tableau kaban et un tableau de gestion de bug 
+- [x] J’ai pris les consignes et créé le product backlog 
+- [x] Créer le release backlog 
+- [x] Créer le sprint backlog 
+- [x] Je sais manier CLion
+- [x] Je sais coder un main.c puis le compiler et l’executer
+- [x] Je sais générer un nombre aléatoire différent à chaque exécution du programme
+- [x] Je sais sortir le code du main pour le mettre dans une fonction
+- [x] Je sais appeler la fonction plusieurs fois pour faire des tests de cas particuliers
+- [x] je sais afficher les titre et valeur dans afficheur
+- [x] je sais ecrire le tableau dans un fichier
+- [x] je sais calculer laddition des secteurs
+- [x] je sais convertir des sec en minsec
+- [x] je sais rafraichir la console pour afficher en continu
+- [x] je sais generer des pit et out aleatoire avec respectivement 10% et 5% de chance
+- [x] le code de la version 1 est entièrement commenté
+- [x] j’ai validé ma structure de flux de travail
+- [x] j'ai édité le readme pour expliquer les démarches que j'ai l'habitude d'entreprendre pour contribuer au projet
+- [x] j'ai établi un rapport de reflexion retrospective sur la version 1
+- [x] j'ai créé le backlog pour la version 2
+- [x] j'ai merge master avec la version 1
+- [x] j'ai créé la branche version 2 avec une pull request citant le sprint backlog
+
+
