@@ -109,47 +109,24 @@ void affiche(){
 }
 
 
-// La fonction create_process duplique le processus appelant et retourne le PID du processus fils ainsi créé
-/*pid_t create_process(void){
-    // On crée une nouvelle valeur de type pid_t
-    pid_t pid;
-    // On fork() tant que l'erreur est EAGAIN
-    do {pid = fork();} while ((pid == -1) && (errno == EAGAIN));
-    // :On retourne le PID du processus ainsi créé
-    return pid;
-}*/
-
 /* La fonction father_process effectue les actions du processus père */
 void father_process(int child_pid){
-    //indique l'etat si error ou terminaison normale
-    int status;
-    //on initialise le random pour chaque process
-    //srand(getpid());
 
+    //on dit ici que c'est le père qui va afficher les colonnes pour chacun des fils
     char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
     char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
 
     printf("\n%s", titres_colonnes);
     printf("%s", separateur_titres_valeurs);
-    /*for(int i = 0; i < 10; i++) {
 
-        affiche();
-        numTour++;
-    }*/
-    //if (wait(&status) == -1) {perror("wait :");exit(EXIT_FAILURE);}
-    //if (WIFEXITED(status)) {printf(" Terminaison normale du processus fils.\n Code de retour : %d.\n", WEXITSTATUS(status));}
-    //if (WIFSIGNALED(status)) {printf(" Terminaison anormale du processus fils.\n Tué par le signal : %d.\n", WTERMSIG(status));}
-
-    //printf("Hello\n");
 }
 
 /* La fonction child_process effectue les actions du processus fils */
 void child_process(void){
     //on initialise le random pour chaque process
     srand(getpid());
-    //printf(" Nous sommes dans le fils !\n");
 
-    //printf("%d", num);
+    //on détermine pour combien de tour le child va s'executer
     for(int i = 0; i < 5; i++) {
 
         affiche();
@@ -158,47 +135,30 @@ void child_process(void){
     }
 }
 
-/*int main(void){
-    for(int i = 0; i < 3; i++){
-        pid_t pid = create_process();
-
-        switch (pid) {
-            // Si on a une erreur irrémédiable (ENOMEM dans notre cas)
-            case -1:
-                perror("fork");
-                return EXIT_FAILURE;
-                break;
-                // Si on est dans le fils
-            case 0:
-                child_process();
-                break;
-                // Si on est dans le père
-            default:
-                //father_process(pid);
-                break;
-        }
-    }
-    return EXIT_SUCCESS;
-}*/
 
 int main () {
+    //ici on détermine combien de fils (de voitures) vont être dupliqués
     for (int i=0; i<5; i++) {
         pid_t pid;
         pid = fork();
+
         sleep(2);
+
         num++;
+
+        //on vérifie qu'il n'y a pas d'erreur lors du fork
         while ((pid == -1) && (errno == EAGAIN));
+
+        //ici on est dans le fils
         if (pid == 0) {
 
-            //printf("Voiture numero : %d\n", num);
             child_process();
-
             exit(0);
+        //ici on est dans le père
         } else {
+
             father_process(pid);
+
         }
-    }
-    for (int i=0; i<5; i++) {
-        wait(NULL);
     }
 }
