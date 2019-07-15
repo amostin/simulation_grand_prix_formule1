@@ -26,7 +26,7 @@ int bestour = 999;
 //on initialise le numero du tour
 int numTour = 1;
 //on defini la limite de tour ici
-int nbrTour = 15;
+int nbrTour = 45;
 //on initialise un int pour gérer le temps total
 int tempsTotal;
 
@@ -48,6 +48,7 @@ char *timeFormat(int duree) {
     strcat(minutesChar, secondesChar);
 
     return minutesChar;
+
 }
 
 //calcule le total des 3 secteurs
@@ -73,15 +74,20 @@ void affiche(){
     int pit = genere_sec_entre_min_max(1, 10);
     int out = genere_sec_entre_min_max(1, 20);
 
-    //si la voiture s'arrete, on incrémente le int "arrets"
-    if(pit == 4){arrets += 1;}
-
-    //si la voiture sort de la route, on passe le int "sortie" a 1
-    if(out == 2){sortie = 1;}
-    else {sortie = 0;}
-
     //je veux calculer s1+s2+s3 et retourner le resultat
     int tour = calculTour(s1, s2, s3);
+
+    //si la voiture s'arrete, on incrémente le int "arrets"
+    if(pit == 4){
+        arrets += 1;
+        tour = tour + genere_sec_entre_min_max(10, 20);
+    }
+
+    //si la voiture sort de la route, on passe le int "sortie" a 1
+    if(out == 2){sortie = 1;
+    } else {sortie = 0;}
+
+
 
     //on enregistre ici le meilleur temps
     if (tour <= bestour){bestour = tour;}
@@ -89,7 +95,11 @@ void affiche(){
     //on calcule le temps total
     tempsTotal += tour;
 
-    printf("%d  |%d|%d|%d|", num, s1, s2, s3);
+    //petite condition pour eviter le decalage avec les numeros de voitures
+    if (num/10 < 1) {printf("%d  |", num);}
+    else {printf("%d |", num);}
+
+    printf("%d|%d|%d|", s1, s2, s3);
 
     //petite condition pour eviter le decalage sur le temps du tour
     if (strlen(timeFormat(tour)) == 6) {printf("%s|", timeFormat(tour));}
@@ -104,6 +114,8 @@ void affiche(){
     //petite condition pour eviter le decalage avec les nombres de tours
     if (numTour/10 < 1) {printf("%d      |", numTour);}
     else {printf("%d     |", numTour);}
+
+
 
     printf("%s\n", timeFormat(tempsTotal));
 }
@@ -133,7 +145,7 @@ void child_process(void){
             affiche();
             numTour++;
         } else if (sortie == 1) {
-            sleep(1);
+
             printf("La voiture est sortie de la route au tour numéro %d\n", numTour - 1);
             exit(0);
         }
@@ -144,7 +156,7 @@ void child_process(void){
 
 int main () {
     //ici on détermine combien de fils (de voitures) vont être dupliqués
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<20; i++) {
         pid_t pid;
         pid = fork();
 
