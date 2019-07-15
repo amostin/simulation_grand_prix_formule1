@@ -1,17 +1,17 @@
 # sprint backlog
-> fin estimée au 18/07/2019
-### fork pour avoir un process afficheur et 20 pour voiture
-* rappel fork()
-    * afficher 21 ou 22 fois "une chaine"
-* afficher un seul nbre generé pour chaque process 
-* afficher la ligne entière pour chaque process 
-### stocker les infos generée par tout les process dans mem partagée
-> tâches à déterminer
-### tester la mem partagée et l'ajuster avec des semaphores
-> tâches à déterminer
-### afficher le tableau avec les 20 temps
-> tâches à déterminer
+> fin esperée le 18/07/2019 mais estimée au 01/08/2019
+* stocker les infos generée par tout les process dans mem partagée
+* tester la mem partagée et l'ajuster avec des semaphores
+* afficher le tableau avec les 20 temps 
 
+num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot
+---|--|--|--|------|-------|---|---|-------|---
+1  |35|41|37|1min53|1min53 |0  |0  |1      |1min53
+2  |38|40|38|1min56|1min56 |0  |0  |1      |1min56
+3  |38|40|37|1min55|1min55 |0  |0  |1      |1min55
+4  |38|35|41|1min54|1min54 |0  |0  |1      |1min54
+5  |40|35|39|1min54|1min54 |0  |0  |1      |1min54
+... JUSQUA 20
 
 # release backlog
 ## Version 1:
@@ -24,12 +24,15 @@
 
 ## Version 2:
 > on veut la même chose que la version 1 mais pour 20 voitures
-* fork pour avoir un process afficheur et 20 pour voiture
-* stocker les infos generée par tout les process dans mem partagée
-* tester la mem partagée et l'ajuster avec des semaphores
-* afficher le tableau avec les 20 temps 
+- [x] fork pour avoir un process afficheur et 20 pour voiture
 
 ## Version 3:
+> on veut pas spécialement de refresh avec les 15 tour pour chaque voiture mais au moins davoir les voiture classée pour un tour
+- [ ] stocker les infos generée par tout les process dans mem partagée
+- [ ] tester la mem partagée et l'ajuster avec des semaphores
+- [ ] afficher le tableau avec les 20 temps 
+
+## Version 4:
 > Tri synchrone et classement finaux stocké
 * classement selon tour complet, pit, out
 * stocker le best time tout le temps
@@ -40,7 +43,7 @@
 > * trié constamment pour que les meilleurs temps soit en haut
 > * n’affiche plus de temps si il est out ou pit. Remettre la voiture à sa place dès son retour du pit
 
-## Version 4:
+## Version 5:
 * écriture d’un makefile
 * écriture doc, rapport
 * perfectionner le code en le paramétrant et refactor
