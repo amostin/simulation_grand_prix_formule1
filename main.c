@@ -18,6 +18,8 @@
 
 int tabNum[21] = {0, 44, 77, 5, 7, 3, 33, 11, 31, 18, 35, 27, 55, 10, 28, 8, 20, 2, 14, 9, 16};
 int compteur = 0;
+int nbrTour = 15;
+int numTour = 0;
 
 void father_process(int child_pid) {
     //printf("je suis le pere");
@@ -27,45 +29,61 @@ void father_process(int child_pid) {
 void child_process(){
     int arret = 0;
     int sortie = 0;
+    structVoiture car = {0,0,0,0,0,0,999,0,0,0};
     srand(getpid());
 
-    structVoiture car = {0,0,0,0,0,0,0,0,0,0};
-    car.id = getpid();
-    car.num = tabNum[compteur];
-    car.s1 = genere_sec_entre_min_max(35, 40);
-    car.s2 = genere_sec_entre_min_max(35, 40);
-    car.s3 = genere_sec_entre_min_max(35, 40);
+    while (numTour != nbrTour)
+        //on vérifie si la voiture n'est pas sortie de la route
+        if (car.out == 0) {
 
-    arret = genere_sec_entre_min_max(1, 20);
-    if (arret == 4) {
-        car.pit += 1;
-    }
+            car.id = getpid();
+            car.num = tabNum[compteur];
+            car.s1 = genere_sec_entre_min_max(35, 40);
+            car.s2 = genere_sec_entre_min_max(35, 40);
+            car.s3 = genere_sec_entre_min_max(35, 40);
 
-    sortie = genere_sec_entre_min_max(1, 20);
-    if (sortie == 2) {
-        car.out = 1;
-    } else {
-        car.out == 0;
-    }
+            arret = genere_sec_entre_min_max(1, 20);
+            if (arret == 4) {
+                car.pit += 1;
+            }
 
-    car.tour = calculTour(car.s1, car.s2, car.s3);
+            sortie = genere_sec_entre_min_max(1, 20);
+            if (sortie == 2) {
+                car.out = 1;
+            } else {
+                car.out = 0;
+            }
 
-    if (car.tour <= car.bestour) {
-        car.bestour = car.tour;
-    }
+            car.tour = calculTour(car.s1, car.s2, car.s3);
 
-    car.total += car.tour;
+            if (car.tour <= car.bestour) {
+                car.bestour = car.tour;
+            }
 
-    //printf("%d\n", car.id);
-    //printf("%d\n", car.num);
-    printf("%d\n", car.s1);
-    printf("%d\n", car.s2);
-    printf("%d\n", car.s3);
-    printf("%d\n", car.tour);
-    printf("%d\n", car.bestour);
-    printf("%d\n", car.pit);
-    printf("%d\n", car.out);
-    printf("%d\n", car.total);
+            car.total += car.tour;
+
+            printf("%d|", car.id);
+            printf("%d|", car.num);
+            printf("%d|", car.s1);
+            printf("%d|", car.s2);
+            printf("%d|", car.s3);
+            printf("%s|", timeFormat(car.tour));
+            printf("%s|", timeFormat(car.bestour));
+            printf("%d|", car.pit);
+            printf("%d|", car.out);
+            printf("%s|", timeFormat(car.total));
+            printf("Numero de tour : %d\n", numTour + 1);
+
+            numTour++;
+        } else if (car.out == 1) {
+            sleep(1);
+            printf("La voiture %d est sortie de la route au tour numéro %d\n", car.num, numTour);
+            printf("-------------------------------------------------------------------------------------------------------\n");
+            exit(0);
+        }
+
+
+
 
 
 
@@ -89,13 +107,14 @@ int main () {
         if (pid == 0) {
 
             child_process();
+            printf("-------------------------------------------------------------------------------------------------------\n");
 
             exit(0);
             //ici on est dans le père
         } else {
 
             father_process(pid);
-            sleep(1);
+            sleep(2);
 
         }
     //}for (int i = 0; i<sizeof(tabNum); i++) {
