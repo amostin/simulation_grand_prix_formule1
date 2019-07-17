@@ -32,10 +32,15 @@ void child_process(){
 
 int main () {
 
+
+    /* SHARED MEMORY */
+
     int shmid;
     //char shm[];
     key_t key;
     key = 5678;
+
+    struct shmid_ds *buf = NULL;
 
     char phrase_a_partager[] = "je suis écrit par le pere";
 
@@ -49,6 +54,14 @@ int main () {
         exit(1);
     }
 
+    if (shmctl(shmid, IPC_STAT , buf) == -1) {
+        perror("shmat");
+        exit(1);
+    }
+
+
+    /* FORK */
+
     pid_t pid;
     pid = fork();
 
@@ -59,12 +72,9 @@ int main () {
 
     //ici on est dans le fils
     if (pid == 0) {
-
-
         child_process();
-
-
         exit(0);
+
         //ici on est dans le père
     } else {
         father_process(pid);
