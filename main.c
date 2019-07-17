@@ -30,7 +30,7 @@ int bestour = 999;
 //on initialise le numero du tour
 int numTour = 1;
 //on defini la limite de tour ici
-int nbrTour = 50;
+int nbrTour = 15;
 //on initialise un int pour gérer le temps total
 int tempsTotal;
 //on initialise un int représentant le temps du tour
@@ -98,11 +98,24 @@ void affiche(){
     //on calcule le temps total
     tempsTotal += tour;
 
-    printf("%d  |%d|%d|%d|", num, s1, s2, s3);
+    printf("%d  |", num);
+
+    //petite condition pour eviter le decalage sur le temps du S1
+    if (strlen(timeFormat(s1)) == 6) {printf("%s|", timeFormat(s1));}
+    else if (strlen(timeFormat(s1)) < 6) {printf("%s |", timeFormat(s1));}
+
+    //petite condition pour eviter le decalage sur le temps du S2
+    if (strlen(timeFormat(s2)) == 6) {printf("%s|", timeFormat(s2));}
+    else if (strlen(timeFormat(s2)) < 6) {printf("%s |", timeFormat(s2));}
+
+    //petite condition pour eviter le decalage sur le temps du S3
+    if (strlen(timeFormat(s3)) == 6) {printf("%s|", timeFormat(s3));}
+    else if (strlen(timeFormat(s3)) < 6) {printf("%s |", timeFormat(s3));}
 
     //petite condition pour eviter le decalage sur le temps du tour
     if (strlen(timeFormat(tour)) == 6) {printf("%s|", timeFormat(tour));}
     else if (strlen(timeFormat(tour)) < 6) {printf("%s |", timeFormat(tour));}
+
 
     //petite condition pour eviter le decalage sur le meilleur temps
     if (strlen(timeFormat(bestour)) == 6) {printf("%s |", timeFormat(bestour));}
@@ -122,8 +135,8 @@ void affiche(){
 void father_process(int child_pid){
 
     //on dit ici que c'est le père qui va afficher les colonnes pour chacun des fils
-    char titres_colonnes[] = "num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot\n";
-    char separateur_titres_valeurs[] = "---|--|--|--|------|-------|---|---|-------|---\n";
+    char titres_colonnes[] = "num|  s1  |  s2  |  s3  | tour |bestour|pit|out|numTour|Tot\n";
+    char separateur_titres_valeurs[] = "---|------|------|------|------|-------|---|---|-------|---\n";
 
     printf("\n%s", titres_colonnes);
     printf("%s", separateur_titres_valeurs);
@@ -153,7 +166,7 @@ void child_process(void){
 
 int main () {
     //ici on détermine combien de fils (de voitures) vont être dupliqués
-    for (int i=0; i<20; i++) {
+    for (int i=0; i<5; i++) {
         pid_t pid;
         pid = fork();
 
