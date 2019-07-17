@@ -41,7 +41,21 @@ void child_process(){
 
     /* ACCES EN ECRITURE */
 
-    buf->shm_perm.uid = nbre_a_partager;
+    printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
+    printf ("The GROUP ID = %d\n",buf->shm_perm.gid);
+    printf ("The creator's ID = %d\n",buf->shm_perm.cuid);
+    printf ("The creator's group ID = %d\n",buf->shm_perm.cgid);
+    printf ("The operation permissions = 0%o\n",buf->shm_perm.mode);
+    printf ("The slot usage sequence\n");
+    //printf ("number = 0%x\n",buf->shm_perm.seq);
+    //printf ("The key= 0%x\n",buf->shm_perm.key);
+    //printf ("The segment size = %d\n",buf->shm_segsz);
+    printf ("The pid of last shmop = %d\n", buf->shm_lpid);
+    printf ("The pid of creator = %d\n", buf->shm_cpid);
+    //printf ("The current # attached = %d\n",buf->shm_nattch);
+    printf ("The last shmat time = %ld\n",buf->shm_atime);
+    printf ("The last shmdt time = %ld\n",buf->shm_dtime);
+    printf ("The last change time = %ld\n", buf->shm_ctime);
 }
 
 
