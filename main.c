@@ -21,6 +21,13 @@
 void father_process(int child_pid) {
 
     printf("papa dit yo\n");
+
+    struct shmid_ds shmid_ds, *buf;
+    buf = & shmid_ds;
+    
+    /* ACCES EN LECTURE */
+    printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
+
 }
 
 
@@ -88,8 +95,6 @@ int main () {
     buf->shm_perm.uid = nbre_a_partager;
 
 
-    /* ACCES EN LECTURE */
-    printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
 
     /* détachement du segment */
 
