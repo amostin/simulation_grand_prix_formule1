@@ -12,6 +12,7 @@
 #include <time.h>
 #include <errno.h>
 #include <signal.h>
+#include <string.h>
 
 
 
@@ -21,8 +22,28 @@ int compteur = 0;
 int nbrTour = 15;
 int numTour = 0;
 
+int listVoiture[2][20];
+
+
 void father_process(int child_pid) {
-    //printf("je suis le pere");
+    int shmid;
+    char *shm;
+    key_t key;
+    key = 5678;
+
+    if ((shmid = shmget(key, sizeof(listVoiture), IPC_CREAT | 0666)) < 0) {
+        perror("shmget");
+        exit(1);
+    }
+
+    if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
+        perror("shmat");
+        exit(1);
+    }
+
+    /*for (int i=0; i<20; i++) {
+        printf("%d", listVoiture[i][0]);
+    }*/
 }
 
 
@@ -30,7 +51,22 @@ void child_process(){
     int arret = 0;
     int sortie = 0;
     structVoiture car = {0,0,0,0,0,0,999,0,0,0};
+    int shmid;
+    key_t key;
+    char *shm;
+    key = 5678;
+
     srand(getpid());
+
+    if ((shmid = shmget(key, sizeof(listVoiture), 0666)) < 0) {
+        perror("shmget");
+        exit(1);
+    }
+
+    if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
+        perror("shmat");
+        exit(1);
+    }
 
     while (numTour != nbrTour)
         //on vérifie si la voiture n'est pas sortie de la route
@@ -61,6 +97,8 @@ void child_process(){
             }
 
             car.total += car.tour;
+
+
 
             printf("%d|", car.id);
             printf("%d|", car.num);
@@ -105,14 +143,17 @@ int main () {
 
         //ici on est dans le fils
         if (pid == 0) {
-
+            //memcpy(&listVoiture[i][0], getpid());
+            //printf("%d\n", listVoiture[i][0]);
+            //printf("%d\n", getpid());
             child_process();
+
             printf("-------------------------------------------------------------------------------------------------------\n");
 
             exit(0);
             //ici on est dans le père
         } else {
-
+            //printf("%d\n", listVoiture[i][0]);
             father_process(pid);
             sleep(2);
 
