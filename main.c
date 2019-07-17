@@ -24,7 +24,7 @@ void father_process(int child_pid) {
 
     struct shmid_ds shmid_ds, *buf;
     buf = & shmid_ds;
-    
+
     /* ACCES EN LECTURE */
     printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
 
@@ -34,6 +34,14 @@ void father_process(int child_pid) {
 void child_process(){
 
     printf("fils dis ya\n");
+
+    struct shmid_ds shmid_ds, *buf;
+    buf = & shmid_ds;
+    int nbre_a_partager = 1248;
+
+    /* ACCES EN ECRITURE */
+
+    buf->shm_perm.uid = nbre_a_partager;
 }
 
 
@@ -90,9 +98,7 @@ int main () {
     printf ("The last change time = %ld\n", buf->shm_ctime);
 
 
-    /* ACCES EN ECRITURE */
 
-    buf->shm_perm.uid = nbre_a_partager;
 
 
 
