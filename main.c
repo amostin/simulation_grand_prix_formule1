@@ -46,8 +46,6 @@ void child_process(){
 
 
 int main () {
-
-
     /* SHARED MEMORY */
 
     int shmid;
@@ -68,10 +66,7 @@ int main () {
     }
 
     //on s'attache au segment pour après pouvoir le manipuler
-    if (shmat(shmid, NULL, 0) == (char *) -1) {
-        perror("shmat");
-        exit(1);
-    }
+    shmat(shmid, NULL, 0);
 
     /* on essaie d'acceder au seg de mem partagée et on indique erreur si ya */
     if (shmctl(shmid, IPC_STAT , buf) == -1) {
