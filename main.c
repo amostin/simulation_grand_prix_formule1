@@ -41,6 +41,18 @@ void father_process(int child_pid) {
         exit(1);
     }
 
+
+
+    // ICICIICCIICICCCCIICCCIIC ca marche passsssss
+//
+//
+//
+//
+
+
+
+
+    //printf("%d\n", shm voiture->num);
     /*for (int i=0; i<20; i++) {
         printf("%d", listVoiture[i][0]);
     }*/
@@ -98,19 +110,9 @@ void child_process(){
 
             car.total += car.tour;
 
+            memcpy(shm, &car, sizeof(structVoiture));
 
-
-            printf("%d|", car.id);
-            printf("%d|", car.num);
-            printf("%d|", car.s1);
-            printf("%d|", car.s2);
-            printf("%d|", car.s3);
-            printf("%s|", timeFormat(car.tour));
-            printf("%s|", timeFormat(car.bestour));
-            printf("%d|", car.pit);
-            printf("%d|", car.out);
-            printf("%s|", timeFormat(car.total));
-            printf("Numero de tour : %d\n", numTour + 1);
+            printf()
 
             numTour++;
         } else if (car.out == 1) {
@@ -129,7 +131,7 @@ void child_process(){
 
 
 int main () {
-    for (int i=0; i<5; i++) {
+    //for (int i=0; i<5; i++) {
 
         pid_t pid;
         pid = fork();
@@ -143,7 +145,7 @@ int main () {
 
         //ici on est dans le fils
         if (pid == 0) {
-            //memcpy(&listVoiture[i][0], getpid());
+
             //printf("%d\n", listVoiture[i][0]);
             //printf("%d\n", getpid());
             child_process();
@@ -160,5 +162,5 @@ int main () {
         }
     //}for (int i = 0; i<sizeof(tabNum); i++) {
 
-    }
+    //}
 }
