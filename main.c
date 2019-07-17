@@ -19,7 +19,7 @@
 
 int tabNum[21] = {0, 44, 77, 5, 7, 3, 33, 11, 31, 18, 35, 27, 55, 10, 28, 8, 20, 2, 14, 9, 16};
 int compteur = 0;
-int nbrTour = 15;
+int nbrTour = 1;
 int numTour = 0;
 
 int listVoiture[2][20];
@@ -27,7 +27,7 @@ int listVoiture[2][20];
 
 void father_process(int child_pid) {
     int shmid;
-    char *shm;
+    structVoiture *shm;
     key_t key;
     key = 5678;
 
@@ -36,7 +36,7 @@ void father_process(int child_pid) {
         exit(1);
     }
 
-    if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
+    if ((shm = shmat(shmid, NULL, 0)) == (structVoiture *) -1) {
         perror("shmat");
         exit(1);
     }
@@ -52,7 +52,7 @@ void father_process(int child_pid) {
 
 
 
-    //printf("%d\n", shm voiture->num);
+    printf("%d\n", &shm->num);
     /*for (int i=0; i<20; i++) {
         printf("%d", listVoiture[i][0]);
     }*/
@@ -65,7 +65,7 @@ void child_process(){
     structVoiture car = {0,0,0,0,0,0,999,0,0,0};
     int shmid;
     key_t key;
-    char *shm;
+    structVoiture *shm;
     key = 5678;
 
     srand(getpid());
@@ -75,7 +75,7 @@ void child_process(){
         exit(1);
     }
 
-    if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
+    if ((shm = shmat(shmid, NULL, 0)) == (structVoiture *) -1) {
         perror("shmat");
         exit(1);
     }
@@ -110,9 +110,19 @@ void child_process(){
 
             car.total += car.tour;
 
+            printf("%d\n", car.num);
+            //printf("%d\n", car.s1);
+            //printf("%d\n", car.s2);
+            //printf("%d\n", car.s3);
+            //printf("%d\n", car.tour);
+            //printf("%d\n", car.bestour);
+            //printf("%d\n", car.pit);
+            //printf("%d\n", car.out);
+            //printf("%d\n", car.total);
+
             memcpy(shm, &car, sizeof(structVoiture));
 
-            printf()
+
 
             numTour++;
         } else if (car.out == 1) {
