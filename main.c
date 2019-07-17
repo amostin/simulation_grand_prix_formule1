@@ -30,9 +30,12 @@ int bestour = 999;
 //on initialise le numero du tour
 int numTour = 1;
 //on defini la limite de tour ici
-int nbrTour = 15;
+int nbrTour = 50;
 //on initialise un int pour gérer le temps total
 int tempsTotal;
+//on initialise un int représentant le temps du tour
+int tour;
+
 
 
 
@@ -74,18 +77,20 @@ void affiche(){
     int s2 = genere_sec_entre_min_max(minimum_S2, maximum_S2);
     int s3 = genere_sec_entre_min_max(minimum_S3, maximum_S3);
 
-    int pit = genere_sec_entre_min_max(1, 10);
-    int out = genere_sec_entre_min_max(1, 20);
+    int pit = genere_sec_entre_min_max(1, 100);
+    int out = genere_sec_entre_min_max(1, 1000);
 
     //si la voiture s'arrete, on incrémente le int "arrets"
-    if(pit == 4){arrets += 1;}
+    if(pit >= 99){arrets = 1;
+    s3 += genere_sec_entre_min_max(1, 5);}
+    else{arrets = 0;}
 
     //si la voiture sort de la route, on passe le int "sortie" a 1
-    if(out == 2){sortie = 1;}
+    if(out >= 998){sortie = 1;}
     else {sortie = 0;}
 
     //je veux calculer s1+s2+s3 et retourner le resultat
-    int tour = calculTour(s1, s2, s3);
+    tour = calculTour(s1, s2, s3);
 
     //on enregistre ici le meilleur temps
     if (tour <= bestour){bestour = tour;}
@@ -148,7 +153,7 @@ void child_process(void){
 
 int main () {
     //ici on détermine combien de fils (de voitures) vont être dupliqués
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<20; i++) {
         pid_t pid;
         pid = fork();
 
