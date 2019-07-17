@@ -60,7 +60,7 @@ int main () {
 
     /* on essaie d'acceder au seg de mem partagée et on indique erreur si ya */
     if (shmctl(shmid, IPC_STAT , buf) == -1) {
-        perror("shmat");
+        perror("acces a shared mem : ");
         exit(1);
     }
 
@@ -87,9 +87,30 @@ int main () {
 
     buf->shm_perm.uid = nbre_a_partager;
 
-    
+
     /* ACCES EN LECTURE */
     printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
+
+    /* détachement du segment */
+
+    if (shmctl(shmid, IPC_RMID, (struct shmid_ds *) NULL) == -1) {
+        perror("detachement : ");
+        exit(1);
+    }
+
+    /*Lock the shared memory segment*/
+
+    if (shmctl(shmid, SHM_LOCK, (struct shmid_ds *) NULL) == -1) {
+        perror("lock : ");
+        exit(1);
+    }
+
+    /*Unlock the shared memory segment.*/
+
+    if (shmctl(shmid, SHM_UNLOCK, (struct shmid_ds *) NULL) == -1) {
+        perror("lock : ");
+        exit(1);
+    }
 
     /* FORK */
 
