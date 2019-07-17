@@ -40,7 +40,8 @@ int main () {
     key_t key;
     key = 5678;
 
-    struct shmid_ds *buf = NULL;
+    struct shmid_ds shmid_ds, *buf;
+    buf = & shmid_ds;
 
     char phrase_a_partager[] = "je suis écrit par le pere";
 
