@@ -14,7 +14,7 @@
 #include <signal.h>
 #include <string.h>
 
-
+//JE TEST MA CAILLLLLE
 
 
 
@@ -87,7 +87,7 @@ int main () {
 
     buf->shm_perm.uid = nbre_a_partager;
 
-    
+
     /* ACCES EN LECTURE */
     printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
 
