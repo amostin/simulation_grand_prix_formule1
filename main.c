@@ -14,8 +14,12 @@
 #include <string.h>
 
 // variable globale pour pouvoir changer changer l'intervalle facilement
-int minimum = 35;
-int maximum = 40;
+int minimum_S1 = 30;
+int maximum_S1 = 45;
+int minimum_S2 = 45;
+int maximum_S2 = 70;
+int minimum_S3 = 70;
+int maximum_S3 = 105;
 //compteur pour les differentes voitures
 int num = 0;
 //des int sont crees comme compteur pour les arrets ou sortie de route
@@ -66,9 +70,9 @@ int genere_sec_entre_min_max(int min, int max) {
 
 void affiche(){
 
-    int s1 = genere_sec_entre_min_max(minimum, maximum);
-    int s2 = genere_sec_entre_min_max(minimum, maximum);
-    int s3 = genere_sec_entre_min_max(minimum, maximum);
+    int s1 = genere_sec_entre_min_max(minimum_S1, maximum_S1);
+    int s2 = genere_sec_entre_min_max(minimum_S2, maximum_S2);
+    int s3 = genere_sec_entre_min_max(minimum_S3, maximum_S3);
 
     int pit = genere_sec_entre_min_max(1, 10);
     int out = genere_sec_entre_min_max(1, 20);
