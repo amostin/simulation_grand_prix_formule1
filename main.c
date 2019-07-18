@@ -35,10 +35,7 @@ void father_process(int child_pid) {
 
     shmat(shmid, NULL, 0);
 
-    buf->shm_perm.uid = nbre_a_partager;
-
     /* ACCES EN LECTURE */
-    printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
 
 }
 
@@ -47,61 +44,44 @@ void child_process(){
 
     printf("fils dis ya\n");
 
-    int shmid;
-    key_t key;
-    key = 5678;
-    struct shmid_ds shmid_ds, *buf;
-    buf = & shmid_ds;
-    int nbre_a_partager = 163264;
-    if ((shmid = shmget(key, sizeof(nbre_a_partager), IPC_CREAT | 0666)) < 0) {
-        perror("shmget");
-        exit(1);
-    }
 
-    shmat(shmid, NULL, 0);
-
-    buf->shm_perm.uid = nbre_a_partager;
-
-    /* ACCES EN LECTURE */
-    printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
 }
 
 
 int main () {
     /* SHARED MEMORY */
 
+    /* variable qui contiendra l'id du segment de memoire paratgée */
     int shmid;
     key_t key;
     key = 5678;
-
-    struct shmid_ds shmid_ds, *buf;
-    buf = & shmid_ds;
-
-    //char phrase_a_partager[] = "je suis écrit par le pere";
-    int nbre_a_partager = 1248;
+    //structVoiture *buf;
 
 
-    //On crée le segment de memoire qui est identidié par shmid
-    if ((shmid = shmget(key, sizeof(nbre_a_partager), IPC_CREAT | 0666)) < 0) {
+    structVoiture *shm;
+
+    structVoiture car = {0,0,0,0,0,0,999,0,0,0};
+    shm = &car;
+
+    int nbre_a_partager = 163264;
+    if ((shmid = shmget(key, sizeof(int), IPC_CREAT | 0666)) < 0) {
         perror("shmget");
         exit(1);
     }
 
-    //on s'attache au segment pour après pouvoir le manipuler
     shmat(shmid, NULL, 0);
 
-    /* on essaie d'acceder au seg de mem partagée et on indique erreur si ya */
-    if (shmctl(shmid, IPC_STAT , buf) == -1) {
-        perror("acces a shared mem : ");
-        exit(1);
-    }
+    /* ACCES EN ECRITURE */
+    shm->id = nbre_a_partager;
 
-    /* ACCES EN LECTURE */
+    /* TEST */
+    printf ("The voiture.id = %d\n",shm->id);
 
-    printf("\nprocess main qui accede a la shmem direct avant tout le monde\n");
-    printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
+
+
+
+
     /*
-    printf ("The GROUP ID = %d\n",buf->shm_perm.gid);
     printf ("The creator's ID = %d\n",buf->shm_perm.cuid);
     printf ("The creator's group ID = %d\n",buf->shm_perm.cgid);
     printf ("The operation permissions = 0%o\n",buf->shm_perm.mode);
@@ -121,7 +101,7 @@ int main () {
 
 
 
-    /* détachement du segment */
+    /* déstruction du segment */
 
     if (shmctl(shmid, IPC_RMID, (struct shmid_ds *) NULL) == -1) {
         perror("detachement : ");
@@ -165,9 +145,11 @@ int main () {
         shmat(shmid, NULL, 0);
 
         /* ACCES EN LECTURE */
-
+/*
         printf("\nprocess main a la fin execution\n");
         printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
+        printf ("The last shmdt time = %ld\n",buf->shm_dtime);
+*/
     }
 
 }
