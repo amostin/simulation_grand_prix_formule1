@@ -36,7 +36,7 @@ void father_process(int child_pid) {
     shmat(shmid, NULL, 0);
 
     buf->shm_perm.uid = nbre_a_partager;
-    
+
     /* ACCES EN LECTURE */
     printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
 
@@ -47,13 +47,23 @@ void child_process(){
 
     printf("fils dis ya\n");
 
+    int shmid;
+    key_t key;
+    key = 5678;
     struct shmid_ds shmid_ds, *buf;
     buf = & shmid_ds;
-    int nbre_a_partager = 1248;
+    int nbre_a_partager = 163264;
+    if ((shmid = shmget(key, sizeof(nbre_a_partager), IPC_CREAT | 0666)) < 0) {
+        perror("shmget");
+        exit(1);
+    }
 
-    /* ACCES EN ECRITURE */
+    shmat(shmid, NULL, 0);
 
-    //buf->shm_perm.uid = nbre_a_partager;
+    buf->shm_perm.uid = nbre_a_partager;
+
+    /* ACCES EN LECTURE */
+    printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
 }
 
 
@@ -152,6 +162,12 @@ int main () {
         father_process(pid);
         sleep(2);
 
+        shmat(shmid, NULL, 0);
+
+        /* ACCES EN LECTURE */
+
+        printf("\nprocess main a la fin execution\n");
+        printf ("\nThe USER ID = %d\n", buf->shm_perm.uid);
     }
 
 }
