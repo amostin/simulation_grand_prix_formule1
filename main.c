@@ -40,9 +40,9 @@ int main() {
         exit(1);
     }
 
-    affichage(course);
 
-    for (int i=0; i<3; i++) {
+
+    for (int i=0; i<20; i++) {
         pid_t pid;
         pid = fork();
 
@@ -69,7 +69,6 @@ int main() {
             course[i]->numTour = cptTour;
             cptTour++;
             course[i]->total += course[i]->tour;
-            //printf("%.3f\n", course[i]->total);
             course[i]->pit = stand();
             course[i]->out = out();
 
@@ -86,8 +85,8 @@ int main() {
             sleep(1);
         }
     }
-
-    //shmctl(shmid, IPC_RMID, NULL);
+    affichage(course);
+    shmctl(shmid, IPC_RMID, NULL);
 }
 
 

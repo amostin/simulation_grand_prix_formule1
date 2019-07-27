@@ -30,17 +30,6 @@ typedef struct Voiture{
     double total;
 }Voiture[20];
 
-//Compare secteur pour voir quel temps est le plus petit et pour l'afficher.
-double bestSect(double a,double b){
-    if(a > b){
-        return b;
-    }
-    if(a < b){
-        return a;
-    }
-    return a;
-}
-
 
 
 //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max. Retourne un double(plus réaliste).
@@ -69,7 +58,7 @@ int stand(){
 }
 
 int out(){
-    if(randomGenerator(1,1000) >= 99){
+    if(randomGenerator(1,1000) >= 999){
         return 1;
     }
     else{
@@ -114,7 +103,7 @@ void affichage(Voiture f1[20]){
     printf("Temps total\t|");
     printf("Stand\t|");
     printf("Sortie\n");
-        for (int i = 0; i<3; i++) {
+        for (int i = 0; i<20; i++) {
             printf("%d\t|", f1[i]->id);
             printf("%.3f\t|", f1[i]->s1 / (double)1000);
             printf("%.3f\t|", f1[i]->s2 / (double)1000);
