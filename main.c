@@ -40,14 +40,16 @@ int main() {
         exit(1);
     }
 
+    affichage(course);
 
-
-    for (int i=0; i<20; i++) {
+    for (int i=0; i<3; i++) {
         pid_t pid;
         pid = fork();
 
         if (pid == 0) {
             srand(getpid());
+
+            int cptTour = 1;
 
             course = shmat(shmid, 0, 0);
 
@@ -56,24 +58,36 @@ int main() {
                 exit(1);
             }
             course[i]->id = ID[i];
-            course[i]->s1 = genS1();
-            course[i]->s2 = genS2();
-            course[i]->s3 = genS3();
+            course[i]->s1 = randomGenerator(45000, 50000);
+            course[i]->s2 = randomGenerator(30000, 35000);
+            course[i]->s3 = randomGenerator(25000, 30000);
             course[i]->tour = calculTour(course[i]->s1, course[i]->s2, course[i]->s3);
-            printf("%d\n", course[i]->id);
-            printf("%.3f\n", (course[i]->s1)/(double)1000);
-            printf("%.3f\n", (course[i]->s2)/(double)1000);
-            printf("%.3f\n", (course[i]->s3)/(double)1000);
-            printf("%s\n" , timeFormat(course[i]->tour));
+            course[i]->bestour = 299999.00;
+            if (course[i]->tour < course[i]->bestour) {
+                course[i]->bestour = course[i]->tour;
+            }
+            course[i]->numTour = cptTour;
+            cptTour++;
+            course[i]->total += course[i]->tour;
+            //printf("%.3f\n", course[i]->total);
+            course[i]->pit = stand();
+            course[i]->out = out();
 
-
+            if (shmdt(course) == -1) {
+                perror("shmdt");
+                exit(1);
+            }
 
             exit(0);
+
+
         } else {
 
             sleep(1);
         }
     }
+
+    //shmctl(shmid, IPC_RMID, NULL);
 }
 
 

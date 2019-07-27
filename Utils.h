@@ -1,21 +1,6 @@
 //
-// Created by Rémy Vase on 2019-07-23.
+// Created by root on 24/07/19.
 //
-
-#ifndef TESTUTILS_UTILS_H
-#define TESTUTILS_UTILS_H
-
-#endif //TESTUTILS_UTILS_H
-
-
-
-//
-// Created by root on 16/07/19.
-//
-
-/*#ifndef STRUCTURE_UTILSPROJET_H
-#define STRUCTURE_UTILSPROJET_H
-#endif //STRUCTURE_UTILSPROJET_H*/
 
 #include <stdlib.h>
 /* Pour fprintf() */
@@ -56,39 +41,17 @@ double bestSect(double a,double b){
     return a;
 }
 
-//Fonction qui génère la chance de passer au pit ou d'être out. Retourne un int ici
-int genere_chance(int min,int max){
-    //le % defini le max puis le calcul defini le min
-    int chance = rand() % (max + 2 -min) + min;
-    //retourne le chiffre aléatoire entre min et max+1
-    return chance;
-}
+
 
 //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max. Retourne un double(plus réaliste).
-int genere_sec_entre_min_max(int min, int max){
+int randomGenerator(int min, int max){
     //le % defini le max puis le calcul defini le min
     int sec = rand() % (max + 2 - min) + min;
     //retourne le chiffre aléatoire entre min et max+1
     return sec;
 }
 
-//Fonction qui génère le temps d'une voiture pour S1.
-int genS1(){
-    double timeS1 = genere_sec_entre_min_max(45000, 50000);
-    return timeS1;
-}
 
-//Fonction qui génère le temps d'une voiture pour S2.
-int genS2(){
-    double timeS2 = genere_sec_entre_min_max(30000, 35000);
-    return timeS2;
-}
-
-//Fonction qui génère le temps d'une voiture pour S3.
-int genS3(){
-    double timeS3 = genere_sec_entre_min_max(20000, 27000);
-    return timeS3;
-}
 
 //calcule le total des 3 secteurs
 double calculTour(double timeS1, double timeS2, double timeS3){
@@ -97,7 +60,7 @@ double calculTour(double timeS1, double timeS2, double timeS3){
 }
 
 int stand(){
-    if(genere_chance(1,100) >= 99){
+    if(randomGenerator(1,100) >= 99){
         return 1;
     }
     else{
@@ -106,7 +69,7 @@ int stand(){
 }
 
 int out(){
-    if(genere_chance(1,1000) >= 99){
+    if(randomGenerator(1,1000) >= 99){
         return 1;
     }
     else{
@@ -137,4 +100,42 @@ char *timeFormat(int duree){
     strcat(minutesChar, millisecChar);
 
     return minutesChar;
+}
+
+
+void affichage(Voiture f1[20]){
+    printf("Num\t|");
+    printf("S1\t|");
+    printf("S2\t|");
+    printf("S3\t|");
+    printf("Tour\t\t|");
+    printf("Meilleur tour\t|");
+    printf("Numéro tour\t|");
+    printf("Temps total\t|");
+    printf("Stand\t|");
+    printf("Sortie\n");
+        for (int i = 0; i<3; i++) {
+            printf("%d\t|", f1[i]->id);
+            printf("%.3f\t|", f1[i]->s1 / (double)1000);
+            printf("%.3f\t|", f1[i]->s2 / (double)1000);
+            printf("%.3f\t|", f1[i]->s3 / (double)1000);
+            printf("%s\t|" , timeFormat(f1[i]->tour));
+            printf("%s\t|" , timeFormat(f1[i]->bestour));
+            printf("%d\t\t|", f1[i]->numTour);
+            printf("%s\t|", timeFormat(f1[i]->total));
+
+            if (f1[i]->pit == 1) {
+                printf("PIT\t|");
+            } else {
+                printf("---\t|");
+            }
+
+            if (f1[i]->out == 1) {
+                printf("DNF\t\n");
+            } else {
+                printf("---\t\n");
+            }
+
+        }
+
 }
