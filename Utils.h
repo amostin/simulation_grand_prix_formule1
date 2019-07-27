@@ -67,7 +67,7 @@ int out(){
 }
 
 //fonction qui va traduire le temps passé en secondes, et va le sortir en chaine de caractere
-//sous le format MMminSS
+//sous le format MMminSSsmmm
 char *timeFormat(int duree){
     int minutes = duree/60000;
     duree -= (minutes * 60000);
@@ -127,4 +127,50 @@ void affichage(Voiture f1[20]){
 
         }
 
+}
+
+void grid(Voiture f1[20]){
+    int place = 1;
+    printf("============GRID============\n");
+    printf("|                          |\n");
+    for (int i; i<20; i++) {
+        if (i % 2 == 0) {
+            if (f1[i]->id / 10 < 1) {
+                printf("|\t[%d ]\t\t   |  %d\n", f1[i]->id, place);
+                printf("|\t[  ]\t\t   |\n");
+                printf("|\t[  ]\t\t   |\n");
+            } else {
+                printf("|\t[%d]\t\t   |  %d\n", f1[i]->id, place);
+                printf("|\t[  ]\t\t   |\n");
+                printf("|\t[  ]\t\t   |\n");
+            }
+            place++;
+        } else {
+            if (f1[i]->id / 10 < 1) {
+                printf("|\t\t[%d ]\t   |  %d\n", f1[i]->id, place);
+                printf("|\t\t[  ]\t   |\n");
+                printf("|\t\t[  ]\t   |\n");
+            } else {
+                printf("|\t\t[%d]\t   |  %d\n", f1[i]->id, place);
+                printf("|\t\t[  ]\t   |\n");
+                printf("|\t\t[  ]\t   |\n");
+            }
+            place++;
+        }
+    }
+
+}
+
+void podium(Voiture f1[20]){
+    printf("=========FIN==========\n");
+    printf("          %d          \n", f1[0]->id);
+    printf("       |‾‾‾‾‾|        \n");
+    if (f1[1]->id / 10 < 1) {
+        printf("    %d  | [1] |  ", f1[1]->id);
+    } else {
+        printf("    %d | [1] |  ", f1[1]->id);
+    }
+    printf("%d   \n", f1[2]->id);
+    printf(" |‾‾‾‾‾|     |‾‾‾‾‾|\n");
+    printf(" | [2] |     | [3] |\n");
 }

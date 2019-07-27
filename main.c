@@ -86,6 +86,8 @@ int main() {
         }
     }
     affichage(course);
+    grid(course);
+    podium(course);
     shmctl(shmid, IPC_RMID, NULL);
 }
 
