@@ -26,7 +26,7 @@ int main() {
 
     Voiture *course;
 
-    shmid = shmget(key, 20*sizeof(Voiture), IPC_CREAT|666);
+    shmid = shmget(key, 20*sizeof(Voiture), IPC_CREAT|0666);
 
     if (shmid == -1) {
         perror("shmget");
