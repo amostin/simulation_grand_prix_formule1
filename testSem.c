@@ -15,7 +15,6 @@
 #include <sys/sem.h>
 #include <sys/types.h>
 #include <sys/shm.h>
-#include "../../../usr/include/zconf.h"
 
 int ID[20] = {44, 77, 5, 7, 3, 33, 11, 31, 18, 35, 27, 55, 10, 28, 8, 20, 2, 14, 9, 16};
 typedef struct Voiture
@@ -34,7 +33,7 @@ typedef struct Voiture
 
 typedef struct Buffer
 {
-    voiture tab[30];
+    voiture tab[100];
     int size;
     int maxsize;
     int last;
@@ -84,10 +83,11 @@ int out()
     }
 }
 
-char *timeFormat(int duree){
-    int minutes = duree/60000;
+char *timeFormat(int duree)
+{
+    int minutes = duree / 60000;
     duree -= (minutes * 60000);
-    int sec = duree/1000;
+    int sec = duree / 1000;
     duree -= sec * 1000;
     int milli = duree;
 
@@ -107,31 +107,39 @@ char *timeFormat(int duree){
     return minutesChar;
 }
 
-void affichage(voiture f1){
+void affichage(voiture f1)
+{
 
-        printf("%d\t|", f1.id);
-        printf("%.3f\t|", f1.s1 / (double)1000);
-        printf("%.3f\t|", f1.s2 / (double)1000);
-        printf("%.3f\t|", f1.s3 / (double)1000);
-        printf("%s\t|" , timeFormat(f1.tour));
-        printf("%s\t|" , timeFormat(f1.bestour));
-        printf("%d\t\t|", f1.numTour);
-        printf("%s\t|", timeFormat(f1.total));
+    printf("%d\t|", f1.id);
+    printf("%.3f\t|", f1.s1 / (double)1000);
+    printf("%.3f\t|", f1.s2 / (double)1000);
+    printf("%.3f\t|", f1.s3 / (double)1000);
+    printf("%s\t|", timeFormat(f1.tour));
+    printf("%s\t|", timeFormat(f1.bestour));
+    printf("%d\t\t|", f1.numTour);
+    printf("%s\t|", timeFormat(f1.total));
 
-        if (f1.pit == 1) {
-            printf("PIT\t|");
-        } else {
-            printf("---\t|");
-        }
+    if (f1.pit == 1)
+    {
+        printf("PIT\t|");
+    }
+    else
+    {
+        printf("---\t|");
+    }
 
-        if (f1.out == 1) {
-            printf("DNF\t\n");
-        } else {
-            printf("---\t\n");
-        }
+    if (f1.out == 1)
+    {
+        printf("DNF\t\n");
+    }
+    else
+    {
+        printf("---\t\n");
+    }
 }
 
-void column(){
+void column()
+{
     printf("Num\t|");
     printf("S1\t|");
     printf("S2\t|");
@@ -146,13 +154,13 @@ void column(){
 
 int init_buff(buffer *b)
 {
-    b->size = -1;
-    b->maxsize = 30;
+    b->size = 0;
+    b->maxsize = 100;
     b->last = -1;
     b->first = -1;
     sem_init(&(b->mutex), 0, 1);
     sem_init(&(b->full), 0, 0);
-    sem_init(&(b->empty), 0, 30);
+    sem_init(&(b->empty), 0, 100);
     return 0;
 }
 
@@ -172,17 +180,22 @@ int init_voiture(voiture *v, int id)
     return 0;
 }
 
-int insert(buffer *b, voiture *v) {
+int insert(buffer *b, voiture *v)
+{
 
     v->s1 = randomGenerator(45000, 50000);
     v->s2 = randomGenerator(30000, 35000);
     v->s3 = randomGenerator(25000, 30000);
 
     v->tour = calculTour(v->s1, v->s2, v->s3);
-    if (v->bestour == -1) {
+    if (v->bestour == -1)
+    {
         v->bestour = v->tour;
-    } else {
-        if (v->tour < v->bestour) {
+    }
+    else
+    {
+        if (v->tour < v->bestour)
+        {
             v->bestour = v->tour;
         }
     }
@@ -191,37 +204,44 @@ int insert(buffer *b, voiture *v) {
     v->pit = stand();
     v->out = out();
 
-    sem_wait(&b->empty);
-    sem_wait(&b->mutex);
-    if (b->first == -1) {
+    sem_wait(&(b->empty));
+    sem_wait(&(b->mutex));
+    if (b->first == -1)
+    {
         b->first = 0;
     }
     b->last = (b->last + 1) % b->maxsize;
     b->size++;
     b->tab[b->last] = (*v);
-    sem_post(&b->mutex);
-    sem_post(&b->full);
+    sem_post(&(b->mutex));
+    sem_post((&b->full));
     return 0;
 }
 
 voiture rem(buffer *b)
 {
     voiture ret;
-    sem_wait(&b->full);
-    sem_wait(&b->mutex);
+    sem_wait(&(b->full));
+    sem_wait(&(b->mutex));
     ret = b->tab[(b->first)];
-    b->first = (b->first + 1) % (b->maxsize);
+    if (b->first == b->last)
+    {
+        b->first = b->last = -1;
+    }
+    else
+    {
+        b->first = (b->first + 1) % (b->maxsize);
+    }
     b->size--;
-    sem_post(&b->mutex);
-    sem_post(&b->empty);
+    sem_post(&(b->mutex));
+    sem_post(&(b->empty));
     return ret;
 }
-
 int main()
 {
     buffer *b;
-    key_t key = 1024;
-    int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 0666);
+    key_t key = 2345;
+    int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 00777);
     if (shmid == -1)
     {
         printf("error shmget\n");
@@ -236,12 +256,10 @@ int main()
     init_buff(b);
 
     column();
-
-    for (int i = 0; i < 20; i++)
+    pid_t pid;
+    for (int i = 0; i < 10; i++)
     {
-        pid_t pid;
         pid = fork();
-
         if (pid == 0)
         {
             srand(getpid());
@@ -251,42 +269,35 @@ int main()
             if (b == (void *)-1)
             {
                 printf("error shmat\n");
-                return 0;
+                return -1;
             }
-            for(int i = 0; i< 10; i++){
-                insert(b, &v);
-                usleep(1000);
-            }
-            if (shmdt(b) == -1) {
-                perror("shmdt");
-                exit(1);
-            }
-            exit(0);
-        }
-        else
-        {
-            buffer *b = shmat(shmid, NULL, 0);
-            if (b == (void *)-1)
+            for (int i = 0; i < 20; i++)
             {
-                printf("error shmat\n");
-                return 0;
+                insert(b, &v);
+                usleep(500);
             }
-            voiture temp = (b->tab)[i];
-            affichage(temp);
-            usleep(1500);
-            rem(b);
-
-
-            if (shmdt(b) == -1) {
+            if (shmdt(b) == -1)
+            {
                 perror("shmdt");
-                exit(1);
+                return (-1);
             }
+            return 0;
         }
-
-
+    }
+    for (int i = 0; i < 100; i++)
+    {
+        //int val = 0;
+        //sem_getvalue(&b->full, &val);
+        //printf("value :%d\n", val);
+        voiture temp = rem(b);
+        affichage(temp);
+        usleep(1500);
 
     }
-    //shmctl(shmid, IPC_RMID, NULL);
-
+    if (shmdt(b) == -1)
+    {
+        perror("shmdt");
+        return -1;
+    }
     return 0;
 }
