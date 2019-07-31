@@ -158,9 +158,9 @@ int init_buff(buffer *b)
     b->maxsize = 100;
     b->last = -1;
     b->first = -1;
-    sem_init(&(b->mutex), 0, 1);
-    sem_init(&(b->full), 0, 0);
-    sem_init(&(b->empty), 0, 100);
+    sem_init(&(b->mutex), 1, 1);
+    sem_init(&(b->full), 1, 0);
+    sem_init(&(b->empty), 1, 100);
     return 0;
 }
 
@@ -210,7 +210,7 @@ int insert(buffer *b, voiture *v)
     {
         b->first = 0;
     }
-    b->last = (b->last + 1) % b->maxsize;
+    b->last = (b->last + 1) % (b->maxsize);
     b->size++;
     b->tab[b->last] = (*v);
     sem_post(&(b->mutex));
@@ -240,7 +240,7 @@ voiture rem(buffer *b)
 int main()
 {
     buffer *b;
-    key_t key = 2345;
+    key_t key = 42;
     int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 00777);
     if (shmid == -1)
     {
@@ -257,7 +257,7 @@ int main()
 
     column();
     pid_t pid;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 20; i++)
     {
         pid = fork();
         if (pid == 0)
@@ -271,28 +271,25 @@ int main()
                 printf("error shmat\n");
                 return -1;
             }
-            for (int i = 0; i < 20; i++)
+
+            for (int i = 0; i < 100; i++)
             {
                 insert(b, &v);
-                usleep(500);
+                usleep(200000);
             }
             if (shmdt(b) == -1)
             {
                 perror("shmdt");
-                return (-1);
+                return -1;
             }
             return 0;
         }
     }
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 2000; i++)
     {
-        //int val = 0;
-        //sem_getvalue(&b->full, &val);
-        //printf("value :%d\n", val);
+        usleep(1000);
         voiture temp = rem(b);
         affichage(temp);
-        usleep(1500);
-
     }
     if (shmdt(b) == -1)
     {
