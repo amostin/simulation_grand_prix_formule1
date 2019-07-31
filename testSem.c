@@ -17,11 +17,9 @@
 #include <sys/shm.h>
 #include "../../../usr/include/zconf.h"
 
-
-
-
 int ID[20] = {44, 77, 5, 7, 3, 33, 11, 31, 18, 35, 27, 55, 10, 28, 8, 20, 2, 14, 9, 16};
-typedef struct Voiture{
+typedef struct Voiture
+{
     int id;
     int numTour;
     double s1;
@@ -32,11 +30,11 @@ typedef struct Voiture{
     int pit;
     int out;
     double total;
-}voiture;
+} voiture;
 
-
-typedef struct Buffer{
-    int shmid_buffer;
+typedef struct Buffer
+{
+    voiture tab[30];
     int size;
     int maxsize;
     int last;
@@ -44,10 +42,11 @@ typedef struct Buffer{
     sem_t mutex;
     sem_t full;
     sem_t empty;
-}buffer;
+} buffer;
 
 //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max. Retourne un double(plus réaliste).
-int randomGenerator(int min, int max){
+int randomGenerator(int min, int max)
+{
     //le % defini le max puis le calcul defini le min
     int sec = rand() % (max + 2 - min) + min;
     //retourne le chiffre aléatoire entre min et max+1
@@ -55,53 +54,121 @@ int randomGenerator(int min, int max){
 }
 
 //calcule le total des 3 secteurs
-double calculTour(double timeS1, double timeS2, double timeS3){
-    double tour = timeS1+timeS2+timeS3;
+double calculTour(double timeS1, double timeS2, double timeS3)
+{
+    double tour = timeS1 + timeS2 + timeS3;
     return tour;
 }
 
-int stand(){
-    if(randomGenerator(1,100) >= 99){
+int stand()
+{
+    if (randomGenerator(1, 100) >= 99)
+    {
         return 1;
     }
-    else{
+    else
+    {
         return 0;
     }
 }
 
-int out(){
-    if(randomGenerator(1,1000) >= 999){
+int out()
+{
+    if (randomGenerator(1, 1000) >= 999)
+    {
         return 1;
     }
-    else{
+    else
+    {
         return 0;
     }
 }
 
-int init_buff(buffer *b, key_t key){
-    b->shmid_buffer = shmget(key, 20*sizeof(voiture), IPC_CREAT | 0666);
+char *timeFormat(int duree){
+    int minutes = duree/60000;
+    duree -= (minutes * 60000);
+    int sec = duree/1000;
+    duree -= sec * 1000;
+    int milli = duree;
+
+    static char minutesChar[30];
+    char secondesChar[10];
+    char millisecChar[10];
+
+    sprintf(minutesChar, "%d", minutes);
+    sprintf(secondesChar, "%d", sec);
+    sprintf(millisecChar, "%d", milli);
+
+    strcat(minutesChar, "min");
+    strcat(minutesChar, secondesChar);
+    strcat(minutesChar, "s");
+    strcat(minutesChar, millisecChar);
+
+    return minutesChar;
+}
+
+void affichage(voiture f1){
+
+        printf("%d\t|", f1.id);
+        printf("%.3f\t|", f1.s1 / (double)1000);
+        printf("%.3f\t|", f1.s2 / (double)1000);
+        printf("%.3f\t|", f1.s3 / (double)1000);
+        printf("%s\t|" , timeFormat(f1.tour));
+        printf("%s\t|" , timeFormat(f1.bestour));
+        printf("%d\t\t|", f1.numTour);
+        printf("%s\t|", timeFormat(f1.total));
+
+        if (f1.pit == 1) {
+            printf("PIT\t|");
+        } else {
+            printf("---\t|");
+        }
+
+        if (f1.out == 1) {
+            printf("DNF\t\n");
+        } else {
+            printf("---\t\n");
+        }
+}
+
+void column(){
+    printf("Num\t|");
+    printf("S1\t|");
+    printf("S2\t|");
+    printf("S3\t|");
+    printf("Tour\t\t|");
+    printf("Meilleur tour\t|");
+    printf("Numéro tour\t|");
+    printf("Temps total\t|");
+    printf("Stand\t|");
+    printf("Sortie\n");
+}
+
+int init_buff(buffer *b)
+{
     b->size = -1;
-    b->maxsize = 20;
+    b->maxsize = 30;
     b->last = -1;
     b->first = -1;
     sem_init(&(b->mutex), 0, 1);
     sem_init(&(b->full), 0, 0);
-    sem_init(&(b->empty), 0, 20);
+    sem_init(&(b->empty), 0, 30);
     return 0;
 }
 
-int init_voiture(voiture *v, int id){
+int init_voiture(voiture *v, int id)
+{
 
     v->id = id;
-    v-> numTour  = 0;
-    v -> s1 = -1;
-    v-> s2 = -1;
-    v-> s3 = -1;
-    v-> tour = 0;
-    v-> bestour = -1;
-    v-> pit = -1;
-    v->  out = -1;
-    v-> total = 0;
+    v->numTour = 0;
+    v->s1 = -1;
+    v->s2 = -1;
+    v->s3 = -1;
+    v->tour = 0;
+    v->bestour = -1;
+    v->pit = -1;
+    v->out = -1;
+    v->total = 0;
     return 0;
 }
 
@@ -112,14 +179,10 @@ int insert(buffer *b, voiture *v) {
     v->s3 = randomGenerator(25000, 30000);
 
     v->tour = calculTour(v->s1, v->s2, v->s3);
-    if(v->bestour == -1)
-    {
+    if (v->bestour == -1) {
         v->bestour = v->tour;
-    }
-    else
-    {
-        if(v->tour < v->bestour)
-        {
+    } else {
+        if (v->tour < v->bestour) {
             v->bestour = v->tour;
         }
     }
@@ -130,89 +193,100 @@ int insert(buffer *b, voiture *v) {
 
     sem_wait(&b->empty);
     sem_wait(&b->mutex);
-    voiture *tab = shmat(b->shmid_buffer, 0, 0);
+    if (b->first == -1) {
+        b->first = 0;
+    }
     b->last = (b->last + 1) % b->maxsize;
     b->size++;
-    tab[b->last] = *v;
+    b->tab[b->last] = (*v);
     sem_post(&b->mutex);
     sem_post(&b->full);
     return 0;
-
 }
 
-voiture rem(buffer *b){
+voiture rem(buffer *b)
+{
     voiture ret;
-
     sem_wait(&b->full);
     sem_wait(&b->mutex);
-    voiture *tab = shmat(b->shmid_buffer, 0, 0);
-    ret = tab[b->first];
-    b->first = (b->first + 1) % b->maxsize;
+    ret = b->tab[(b->first)];
+    b->first = (b->first + 1) % (b->maxsize);
     b->size--;
     sem_post(&b->mutex);
     sem_post(&b->empty);
     return ret;
 }
 
-int main() {
-    //mémoire partagé pour la structure buffer
-    key_t key2 = 2048;
-    int shmid = shmget(key2, sizeof(buffer), IPC_CREAT | 0666);
-    buffer *b  = shmat(shmid, 0, 0);
-    //On initialise la structure buffer
-    buffer bHelper;
-    key_t key;
-    key = 4000;
-    init_buff(&bHelper,key);
-    //on remplis la mémoire partagé ave le buffer
-    *b = bHelper;
-    //on initialise les voitures
-    voiture vtab[10] ;
-    for(int i = 0; i <10 ; i++){
-        init_voiture(&vtab[i], ID[i]);
+int main()
+{
+    buffer *b;
+    key_t key = 1024;
+    int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 0666);
+    if (shmid == -1)
+    {
+        printf("error shmget\n");
+        return 0;
     }
+    b = (buffer *)shmat(shmid, NULL, 0);
+    if (b == (void *)-1)
+    {
+        printf("error shmat\n");
+        return 0;
+    }
+    init_buff(b);
 
+    column();
 
-    for (int i=0; i<10; i++) {
-
+    for (int i = 0; i < 20; i++)
+    {
         pid_t pid;
         pid = fork();
 
-        if (pid == 0) {
+        if (pid == 0)
+        {
             srand(getpid());
-            buffer *b2 = shmat(shmid,0,0);
-
-            insert(b2, &vtab[i]);
-
-            insert(b2, &vtab[i]);
-            exit(0);
-
-        }
-        else {
-            //printf("je suis le pere : %d\n", getpid());
-            //waitpid(0, 0, 0);
-            usleep(500);
-            //sleep(1);
-            voiture *temp = shmat(b -> shmid_buffer, 0, 0);
-            printf("%d\n", temp[i].id);
-            printf("%.3f\n", temp[i].s1);
-            printf("%.3f\n", temp[i].s2);
-            printf("%.3f\n", temp[i].s3);
-            printf("%.3f\n", temp[i].tour);
-            printf("%d\n", temp[i].numTour);
-            printf("=================\n");
+            voiture v;
+            init_voiture(&v, ID[i]);
+            buffer *b = shmat(shmid, NULL, 0);
+            if (b == (void *)-1)
+            {
+                printf("error shmat\n");
+                return 0;
             }
-
+            for(int i = 0; i< 10; i++){
+                insert(b, &v);
+                usleep(1000);
+            }
+            if (shmdt(b) == -1) {
+                perror("shmdt");
+                exit(1);
+            }
+            exit(0);
         }
-    /*voiture *temp = shmat(b -> shmid_buffer, 0, 0);
-    for (int i=0; i<10; i++) {
-        printf("%d\n", temp[i].id);
-        printf("%.3f\n", temp[i].s1);
-        printf("%.3f\n", temp[i].s2);
-        printf("%.3f\n", temp[i].s3);
-        printf("%.3f\n", temp[i].tour);
-        printf("%d\n", temp[i].numTour);
-        printf("=================\n");
-    }*/
+        else
+        {
+            buffer *b = shmat(shmid, NULL, 0);
+            if (b == (void *)-1)
+            {
+                printf("error shmat\n");
+                return 0;
+            }
+            voiture temp = (b->tab)[i];
+            affichage(temp);
+            usleep(1500);
+            rem(b);
+
+
+            if (shmdt(b) == -1) {
+                perror("shmdt");
+                exit(1);
+            }
+        }
+
+
+
+    }
+    //shmctl(shmid, IPC_RMID, NULL);
+
     return 0;
 }
