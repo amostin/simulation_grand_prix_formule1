@@ -33,7 +33,7 @@ int main()
     }
     init_buff(b);
 
-    column();
+
     pid_t pid;
     for (int i = 0; i < 20; i++)
     {
@@ -70,6 +70,7 @@ int main()
         if (i % 20 ==0 ) {
             sleep(1);
             system("clear");
+            column();
         }
 
         affichage(temp);
