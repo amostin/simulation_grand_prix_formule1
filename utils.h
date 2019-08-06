@@ -95,35 +95,38 @@ char *timeFormat(int duree)
     return minutesChar;
 }
 
-void affichage(voiture f1)
+void affichage(voiture f1[20])
 {
+    for (int i=1; i<20; i++)
+    {
+        printf("%d\t|", f1[i].id);
+        printf("%.3f\t|", f1[i].s1 / (double)1000);
+        printf("%.3f\t|", f1[i].s2 / (double)1000);
+        printf("%.3f\t|", f1[i].s3 / (double)1000);
+        printf("%s\t|", timeFormat(f1[i].tour));
+        printf("%s\t|", timeFormat(f1[i].bestour));
+        printf("%d\t\t|", f1[i].numTour);
+        printf("%s\t|", timeFormat(f1[i].total));
 
-    printf("%d\t|", f1.id);
-    printf("%.3f\t|", f1.s1 / (double)1000);
-    printf("%.3f\t|", f1.s2 / (double)1000);
-    printf("%.3f\t|", f1.s3 / (double)1000);
-    printf("%s\t|", timeFormat(f1.tour));
-    printf("%s\t|", timeFormat(f1.bestour));
-    printf("%d\t\t|", f1.numTour);
-    printf("%s\t|", timeFormat(f1.total));
+        if (f1[i].pit == 1)
+        {
+            printf("PIT\t|");
+        }
+        else
+        {
+            printf("---\t|");
+        }
 
-    if (f1.pit == 1)
-    {
-        printf("PIT\t|");
-    }
-    else
-    {
-        printf("---\t|");
+        if (f1[i].out == 1)
+        {
+            printf("DNF\t\n");
+        }
+        else
+        {
+            printf("---\t\n");
+        }
     }
 
-    if (f1.out == 1)
-    {
-        printf("DNF\t\n");
-    }
-    else
-    {
-        printf("---\t\n");
-    }
 }
 
 void column()

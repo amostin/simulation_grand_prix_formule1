@@ -16,26 +16,26 @@ const int nbrVoiture = 20;
 const int nbrTour = 5;
 int ID[20] = {44, 77, 5, 7, 3, 33, 11, 31, 18, 35, 27, 55, 10, 28, 8, 20, 2, 14, 9, 16};
 voiture sorter[20] = {
-        {   .id = 44, .bestour = -1    },
-        {   .id = 77, .bestour = -1    },
-        {   .id = 5 , .bestour = -1    },
-        {   .id = 7 , .bestour = -1    },
-        {   .id = 3 , .bestour = -1    },
-        {   .id = 33 , .bestour = -1   },
-        {   .id = 11  , .bestour = -1  },
-        {   .id = 31  , .bestour = -1  },
-        {   .id = 18  , .bestour = -1  },
-        {   .id = 35  , .bestour = -1  },
-        {   .id = 27  , .bestour = -1  },
-        {   .id = 55  , .bestour = -1  },
-        {   .id = 10  , .bestour = -1  },
-        {   .id = 28  , .bestour = -1  },
-        {   .id = 8 , .bestour = -1    },
-        {   .id = 20 , .bestour = -1   },
-        {   .id = 2  , .bestour = -1   },
-        {   .id = 14  , .bestour = -1  },
-        {   .id = 9  , .bestour = -1   },
-        {   .id = 16  , .bestour = -1  },
+        {   .id = 44  },
+        {   .id = 77  },
+        {   .id = 5   },
+        {   .id = 7   },
+        {   .id = 3   },
+        {   .id = 33  },
+        {   .id = 11  },
+        {   .id = 31  },
+        {   .id = 18  },
+        {   .id = 35  },
+        {   .id = 27  },
+        {   .id = 55  },
+        {   .id = 10  },
+        {   .id = 28  },
+        {   .id = 8   },
+        {   .id = 20  },
+        {   .id = 2   },
+        {   .id = 14  },
+        {   .id = 9   },
+        {   .id = 16  },
 };
 
 int compare_qualification(const void * a, const void * b)
@@ -43,8 +43,9 @@ int compare_qualification(const void * a, const void * b)
     voiture *voitureA = (voiture *)a;
     voiture *voitureB = (voiture *)b;
 
-    return (voitureA->id - voitureB->id);
+    return (voitureA->bestour - voitureB->bestour);
 }
+
 
 int main()
 {
@@ -94,42 +95,30 @@ int main()
             return 0;
         }
     }
+
     for (int i = 0; i < (nbrVoiture * nbrTour); i++)
     {
         usleep(1000);
-
+        int cpt = 1;
         voiture temp = rem(b);
-        for (int i =0; i< nbrVoiture; i++)
+        for (int j =1; j< nbrVoiture; j++)
         {
-            if ( sorter[i].id == temp.id)
+            if (temp.id == sorter[j].id)
             {
-                if (sorter[i].bestour == -1)
-                {
-                    sorter[i] = temp;
-
-                }
+                sorter[j] = temp;
             }
         }
         qsort(sorter, 20, sizeof(voiture), compare_qualification);
 
-        for (int i; i<nbrVoiture; i++)
-        {
-            printf("%d\t|", sorter[i].id);
-            printf("%.3f\n", sorter[i].bestour);
-        }
-        //affichage(temp);
-
-
-        /*if (i % 20 ==0 ) {
+        if (i % 20 ==0 && i >= 20) {
             sleep(1);
             system("clear");
             column();
-
-
-        }*/
-
+            affichage(sorter);
+        }
 
     }
+
     if (shmdt(b) == -1)
     {
         perror("shmdt");
