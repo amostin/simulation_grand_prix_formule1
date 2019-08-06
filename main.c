@@ -46,6 +46,14 @@ int compare_qualification(const void * a, const void * b)
     return (voitureA->bestour - voitureB->bestour);
 }
 
+int compare_race(const void *a, const void *b)
+{
+    voiture *voitureA = (voiture *)a;
+    voiture *voitureB = (voiture *)b;
+
+    return (voitureA->total - voitureB->total);
+}
+
 
 int main()
 {
@@ -103,14 +111,20 @@ int main()
         voiture temp = rem(b);
         for (int j =1; j< nbrVoiture; j++)
         {
-            if (temp.id == sorter[j].id)
+            if ((temp.id == sorter[j].id)&& (sorter[j].numTour == temp.numTour -1))
             {
                 sorter[j] = temp;
             }
         }
-        qsort(sorter, 20, sizeof(voiture), compare_qualification);
+        qsort(sorter, 20, sizeof(voiture), compare_race);
 
         if (i % 20 ==0 && i >= 20) {
+            sleep(1);
+            system("clear");
+            column();
+            affichage(sorter);
+        } else if (i == (nbrVoiture * nbrTour) - 1)
+        {
             sleep(1);
             system("clear");
             column();
