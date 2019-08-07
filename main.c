@@ -13,7 +13,7 @@
 /* Pour le utils */
 #include "utils.h"
 const int nbrVoiture = 20;
-const int nbrTour = 5;
+const int nbrTour = 25;
 int ID[20] = {44, 77, 5, 7, 3, 33, 11, 31, 18, 35, 27, 55, 10, 28, 8, 20, 2, 14, 9, 16};
 voiture sorter[20] = {
         {   .id = 44  },
@@ -38,24 +38,12 @@ voiture sorter[20] = {
         {   .id = 16  },
 };
 
-int compare_qualification(const void * a, const void * b)
-{
-    voiture *voitureA = (voiture *)a;
-    voiture *voitureB = (voiture *)b;
-
-    return (voitureA->bestour - voitureB->bestour);
-}
-
-int compare_race(const void *a, const void *b)
-{
-    voiture *voitureA = (voiture *)a;
-    voiture *voitureB = (voiture *)b;
-
-    return (voitureA->total - voitureB->total);
-}
 
 
-int main()
+
+
+
+int run(int param)
 {
     buffer *b;
     key_t key = 42;
@@ -107,36 +95,75 @@ int main()
     for (int i = 0; i < (nbrVoiture * nbrTour); i++)
     {
         usleep(1000);
-        int cpt = 1;
         voiture temp = rem(b);
-        for (int j =1; j< nbrVoiture; j++)
+        for (int j =0; j< nbrVoiture; j++)
         {
-            if ((temp.id == sorter[j].id)&& (sorter[j].numTour == temp.numTour -1))
+            if ((temp.id == sorter[j].id)&& (temp.numTour != (sorter[j].numTour -2)))
             {
                 sorter[j] = temp;
             }
+            else if (temp.id == sorter[j].id && temp.out == 1)
+            {
+                //temp.total = 99999999;
+            }
         }
-        qsort(sorter, 20, sizeof(voiture), compare_race);
+        if (param == 0) {
+            qsort(sorter, 20, sizeof(voiture), compare_race);
+            if (i % 20 ==0 && i >= 20) {
+                sleep(1);
+                system("clear");
+                column();
+                affichage(sorter);
+            } else if (i == (nbrVoiture * nbrTour) - 1)
+            {
+                sleep(1);
+                system("clear");
+                column();
+                affichage(sorter);
+                sleep(1);
+                podium(sorter);
+            }
 
-        if (i % 20 ==0 && i >= 20) {
-            sleep(1);
-            system("clear");
-            column();
-            affichage(sorter);
-        } else if (i == (nbrVoiture * nbrTour) - 1)
-        {
-            sleep(1);
-            system("clear");
-            column();
-            affichage(sorter);
         }
+        else if (param = 1)
+        {
+            qsort(sorter, 20, sizeof(voiture), compare_qualification);
+            if (i % 20 ==0 && i >= 20) {
+                sleep(1);
+                system("clear");
+                column();
+                affichage(sorter);
+            } else if (i == (nbrVoiture * nbrTour) - 1)
+            {
+                sleep(1);
+                system("clear");
+                column();
+                affichage(sorter);
+                sleep(1);
+                grid(sorter);
+            }
+
+        }
+
+
 
     }
+
 
     if (shmdt(b) == -1)
     {
         perror("shmdt");
         return -1;
     }
+    //return sorter;
+
     return 0;
+}
+
+
+int main() {
+    //run(1);
+    //sleep(10);
+    run(0);
+    sleep(2);
 }

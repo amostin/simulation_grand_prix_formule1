@@ -97,7 +97,7 @@ char *timeFormat(int duree)
 
 void affichage(voiture f1[20])
 {
-    for (int i=1; i<20; i++)
+    for (int i=0; i<20; i++)
     {
         printf("%d\t|", f1[i].id);
         printf("%.3f\t|", f1[i].s1 / (double)1000);
@@ -193,7 +193,17 @@ int insert(buffer *b, voiture *v)
     (v->numTour)++;
     v->total += v->tour;
     v->pit = stand();
+    if (v->pit == 1)
+    {
+        v->s3 += randomGenerator(10000, 15000);
+    }
     v->out = out();
+    if (v->out == 1)
+    {
+        //v->total = 999999999;
+
+    }
+
 
     sem_wait(&(b->empty));
     sem_wait(&(b->mutex));
@@ -227,6 +237,68 @@ voiture rem(buffer *b)
     sem_post(&(b->mutex));
     sem_post(&(b->empty));
     return ret;
+}
+
+int compare_qualification(const void * a, const void * b)
+{
+    voiture *voitureA = (voiture *)a;
+    voiture *voitureB = (voiture *)b;
+
+    return (voitureA->bestour - voitureB->bestour);
+}
+
+int compare_race(const void *a, const void *b)
+{
+    voiture *voitureA = (voiture *)a;
+    voiture *voitureB = (voiture *)b;
+
+    return ((voitureA->total/voitureA->numTour) - (voitureB->total/voitureB->numTour));
+}
+
+void grid(voiture f1[20]){
+    int place = 1;
+    printf("============GRID============\n");
+    printf("|                          |\n");
+    for (int i; i<20; i++) {
+        if (i % 2 == 0) {
+            if (f1[i].id / 10 < 1) {
+                printf("|\t[%d ]\t\t   |  %d\n", f1[i].id, place);
+                printf("|\t[  ]\t\t   |\n");
+                printf("|\t[  ]\t\t   |\n");
+            } else {
+                printf("|\t[%d]\t\t   |  %d\n", f1[i].id, place);
+                printf("|\t[  ]\t\t   |\n");
+                printf("|\t[  ]\t\t   |\n");
+            }
+            place++;
+        } else {
+            if (f1[i].id / 10 < 1) {
+                printf("|\t\t[%d ]\t   |  %d\n", f1[i].id, place);
+                printf("|\t\t[  ]\t   |\n");
+                printf("|\t\t[  ]\t   |\n");
+            } else {
+                printf("|\t\t[%d]\t   |  %d\n", f1[i].id, place);
+                printf("|\t\t[  ]\t   |\n");
+                printf("|\t\t[  ]\t   |\n");
+            }
+            place++;
+        }
+    }
+
+}
+
+void podium(voiture f1[20]){
+    printf("=========FIN==========\n");
+    printf("          %d          \n", f1[0].id);
+    printf("       |‾‾‾‾‾|        \n");
+    if (f1[1].id / 10 < 1) {
+        printf("    %d  | [1] |  ", f1[1].id);
+    } else {
+        printf("    %d | [1] |  ", f1[1].id);
+    }
+    printf("%d   \n", f1[2].id);
+    printf(" |‾‾‾‾‾|     |‾‾‾‾‾|\n");
+    printf(" | [2] |     | [3] |\n");
 }
 
 #endif //F1_PROJECT_UTILS_H
