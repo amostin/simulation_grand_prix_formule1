@@ -166,8 +166,8 @@ int init_buff(buffer *b)
 {
     b->size = 0;
     b->maxsize = 100;
-    b->last = -1;
-    b->first = -1;
+    b->last = 0;
+    b->first = 0;
     key_t sem_mutex_key = ftok("/dev/null", 43);
     b->mutex = semget(sem_mutex_key, 1, IPC_CREAT | 0666);
     sem_reset(b->mutex, 0);
@@ -229,9 +229,9 @@ int insert(buffer *b, voiture *v, double tempsCourse)
     }
 
     sem_lock(b->mutex, 0);
-    b->last = (b->last + 1) % (b->maxsize);
     b->size++;
     b->tab[b->last] = (*v);
+    b->last = (b->last + 1) % (b->maxsize);
     sem_unlock(b->mutex, 0);
     return 0;
 }
@@ -241,6 +241,7 @@ voiture rem(buffer *b)
     voiture ret;
     sem_lock(b->mutex, 0);
     ret = b->tab[(b->first)];
+    init_voiture(&(b->tab[b->first]), 0);
     if (b->first == b->last)
     {
         b->first = b->last = 0;
@@ -251,7 +252,6 @@ voiture rem(buffer *b)
     }
     b->size--;
     sem_unlock(b->mutex, 0);
-
     return ret;
 }
 
@@ -270,7 +270,6 @@ int compare_qualification(const void * a, const void * b)
         return 0;
     }
 
-    return (voitureA->bestour - voitureB->bestour);
 }
 
 int compare_race(const void *a, const void *b)
