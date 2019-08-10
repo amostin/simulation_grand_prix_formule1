@@ -28,7 +28,6 @@ typedef struct Buffer
     int last;
     int first;
     int mutex;
-    int toread;
 } buffer;
 
 //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max. Retourne un double(plus réaliste).
@@ -172,11 +171,6 @@ int init_buff(buffer *b)
     key_t sem_mutex_key = ftok("/dev/null", 43);
     b->mutex = semget(sem_mutex_key, 1, IPC_CREAT | 0666);
     sem_reset(b->mutex, 0);
-    key_t sem_toread_key = ftok("/dev/null", 44);
-    b->toread = semget(sem_toread_key, 1, IPC_CREAT | 0666);
-    sem_reset(b->toread, 0);
-    //sem_init(&(b->full), 1, 0);
-    //sem_init(&(b->empty), 1, 100);
     return 0;
 }
 
@@ -235,27 +229,21 @@ int insert(buffer *b, voiture *v, double tempsCourse)
     }
 
     sem_lock(b->mutex, 0);
-    if (b->first == -1)
-    {
-        b->first = 0;
-    }
     b->last = (b->last + 1) % (b->maxsize);
     b->size++;
     b->tab[b->last] = (*v);
     sem_unlock(b->mutex, 0);
-    sem_unlock(b->toread, 0);
     return 0;
 }
 
 voiture rem(buffer *b)
 {
     voiture ret;
-    sem_lock(b->toread, 0);
     sem_lock(b->mutex, 0);
     ret = b->tab[(b->first)];
     if (b->first == b->last)
     {
-        b->first = b->last = -1;
+        b->first = b->last = 0;
     }
     else
     {
@@ -263,6 +251,7 @@ voiture rem(buffer *b)
     }
     b->size--;
     sem_unlock(b->mutex, 0);
+
     return ret;
 }
 

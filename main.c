@@ -184,8 +184,6 @@ int run(int param, int shmid)
 
 
 int main(int argc, char  **argv) {
-    //run(1);
-    //sleep(10);
     if (argc < 2) {
         printf("Veuillez introduire le type de course\n");
         return 0;
@@ -201,7 +199,6 @@ int main(int argc, char  **argv) {
     sleep(2);
     buffer *b = shmat(shmid, NULL, 0);
     semctl(b->mutex, 0, IPC_RMID, NULL);
-    semctl(b->toread, 0, IPC_RMID, NULL);
     shmdt(b);
     shmctl(shmid, IPC_RMID, NULL);
 }
