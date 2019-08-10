@@ -61,6 +61,7 @@ int run(int param, int shmid)
     pid_t pid;
     for (int i = 0; i < nbrVoiture; i++)
     {
+
         pid = fork();
         if (pid == 0)
         {
@@ -199,8 +200,8 @@ int main(int argc, char  **argv) {
     run(atoi(argv[1]), shmid);
     sleep(2);
     buffer *b = shmat(shmid, NULL, 0);
-    sem_reset(b->mutex, 0);
     semctl(b->mutex, 0, IPC_RMID, NULL);
+    semctl(b->toread, 0, IPC_RMID, NULL);
     shmdt(b);
     shmctl(shmid, IPC_RMID, NULL);
 }
