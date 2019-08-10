@@ -9,6 +9,8 @@
 #include <string.h>
 /* Pour les sémaphores */
 #include <semaphore.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
 #include <sys/shm.h>
 /* Pour le utils */
 #include "utils.h"
@@ -43,16 +45,9 @@ voiture sorter[20] = {
 
 
 
-int run(int param)
+int run(int param, int shmid)
 {
     buffer *b;
-    key_t key = 42;
-    int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 00777);
-    if (shmid == -1)
-    {
-        printf("error shmget\n");
-        return 0;
-    }
     b = (buffer *)shmat(shmid, NULL, 0);
     if (b == (void *)-1)
     {
@@ -61,6 +56,7 @@ int run(int param)
     }
     init_buff(b);
 
+    double tempsTotalQ = 18*60*1000;
 
     pid_t pid;
     for (int i = 0; i < nbrVoiture; i++)
@@ -75,47 +71,55 @@ int run(int param)
             if (b == (void *)-1)
             {
                 printf("error shmat\n");
-                return -1;
+                exit(EXIT_FAILURE);
+            }
+            if (param == 0) {
+                for (int i = 0; i < nbrTour; i++)
+                {
+                    insert(b, &v, 0);
+                    if (v.out == 1) {
+                        break;
+                    }
+                    usleep(1000*1000);
+                }
+            } else if (param == 1) {
+                while(!v.finished) {
+                    insert(b, &v, tempsTotalQ);
+                    if (v.out == 1) {
+                        break;
+                    }
+                    usleep(1000*1000);
+                }
             }
 
-            for (int i = 0; i < nbrTour; i++)
-            {
-                insert(b, &v);
-                usleep(200000);
-            }
             if (shmdt(b) == -1)
             {
                 perror("shmdt");
-                return -1;
+                exit(EXIT_FAILURE);
             }
-            return 0;
+            exit(EXIT_SUCCESS);
         }
     }
 
-    for (int i = 0; i < (nbrVoiture * nbrTour); i++)
-    {
-        usleep(1000);
-        voiture temp = rem(b);
-        for (int j =0; j< nbrVoiture; j++)
-        {
-            if ((temp.id == sorter[j].id)&& (temp.numTour != (sorter[j].numTour -2)))
-            {
-                sorter[j] = temp;
+
+    if (param == 0) {
+        for (int i = 0; i < (nbrTour); i++) {
+            usleep(1000);
+            for (int j = 0; j < nbrVoiture; j++) {
+                voiture temp = rem(b);
+                for (int k = 0; k < nbrVoiture; k++) {
+                    if (temp.id == sorter[k].id) {
+                        memcpy(&sorter[k], &temp, sizeof(voiture));
+                    }
+                }
             }
-            else if (temp.id == sorter[j].id && temp.out == 1)
-            {
-                //temp.total = 99999999;
-            }
-        }
-        if (param == 0) {
             qsort(sorter, 20, sizeof(voiture), compare_race);
-            if (i % 20 ==0 && i >= 20) {
+            if (i != (nbrTour - 1)) {
                 sleep(1);
                 system("clear");
                 column();
                 affichage(sorter);
-            } else if (i == (nbrVoiture * nbrTour) - 1)
-            {
+            } else {
                 sleep(1);
                 system("clear");
                 column();
@@ -123,17 +127,35 @@ int run(int param)
                 sleep(1);
                 podium(sorter);
             }
-
         }
-        else if (param = 1)
-        {
-            qsort(sorter, 20, sizeof(voiture), compare_qualification);
-            if (i % 20 ==0 && i >= 20) {
+
+    }
+    else if (param == 1)
+    {
+        int finished = 0;
+        while (!finished) {
+            usleep(1000);
+            for (int j = 0; j < nbrVoiture; j++) {
+                voiture temp = rem(b);
+                for (int k = 0; k < nbrVoiture; k++) {
+                    if (temp.id == sorter[k].id) {
+                        memcpy(&sorter[k], &temp, sizeof(voiture));
+                    }
+                }
+            }
+            int nbFinished = 0;
+            for (int i = 0; i < nbrVoiture; i++) {
+                if (sorter[i].finished) {
+                    nbFinished++;
+                }
+            }
+            qsort(sorter, nbrVoiture, sizeof(voiture), compare_qualification);
+            if (nbFinished != nbrVoiture) {
                 sleep(1);
                 system("clear");
                 column();
                 affichage(sorter);
-            } else if (i == (nbrVoiture * nbrTour) - 1)
+            } else
             {
                 sleep(1);
                 system("clear");
@@ -141,13 +163,12 @@ int run(int param)
                 affichage(sorter);
                 sleep(1);
                 grid(sorter);
+                finished = 1;
             }
-
         }
 
-
-
     }
+
 
 
     if (shmdt(b) == -1)
@@ -161,9 +182,25 @@ int run(int param)
 }
 
 
-int main() {
+int main(int argc, char  **argv) {
     //run(1);
     //sleep(10);
-    run(0);
+    if (argc < 2) {
+        printf("Veuillez introduire le type de course\n");
+        return 0;
+    }
+    key_t key = ftok("/dev/null", 42);
+    int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 0666);
+    if (shmid == -1)
+    {
+        printf("error shmget\n");
+        return 0;
+    }
+    run(atoi(argv[1]), shmid);
     sleep(2);
+    buffer *b = shmat(shmid, NULL, 0);
+    sem_reset(b->mutex, 0);
+    semctl(b->mutex, 0, IPC_RMID, NULL);
+    shmdt(b);
+    shmctl(shmid, IPC_RMID, NULL);
 }

@@ -17,6 +17,7 @@ typedef struct Voiture
     int pit;
     int out;
     double total;
+    int finished;
 } voiture;
 
 typedef struct Buffer
@@ -26,9 +27,7 @@ typedef struct Buffer
     int maxsize;
     int last;
     int first;
-    sem_t mutex;
-    sem_t full;
-    sem_t empty;
+    int mutex;
 } buffer;
 
 //fct qui prend deux nbre en entrée et retourne  un nbre entre les deux entrés. attention lors des tests il renvoi meme un nombre au dessus du max. Retourne un double(plus réaliste).
@@ -143,15 +142,37 @@ void column()
     printf("Sortie\n");
 }
 
+void sem_lock(int sem_id, int sem_channel){
+    struct sembuf op;
+    op.sem_num = sem_channel;
+    op.sem_op = -1;
+    op.sem_flg =  0;
+    semop(sem_id, &op, 1);
+}
+
+void sem_unlock(int sem_id, int sem_channel){
+    struct sembuf op;
+    op.sem_num = sem_channel;
+    op.sem_op = 1;
+    op.sem_flg = IPC_NOWAIT;
+    semop(sem_id, &op, 1);
+}
+
+void sem_reset(int sem_id, int sem_channel){
+    semctl(sem_id, sem_channel, SETVAL, 1);
+}
+
 int init_buff(buffer *b)
 {
     b->size = 0;
     b->maxsize = 100;
     b->last = -1;
     b->first = -1;
-    sem_init(&(b->mutex), 1, 1);
-    sem_init(&(b->full), 1, 0);
-    sem_init(&(b->empty), 1, 100);
+    key_t sem_mutex_key = ftok("/dev/null", 43);
+    b->mutex = semget(sem_mutex_key, 1, IPC_CREAT | 0666);
+    sem_reset(b->mutex, 0);
+    //sem_init(&(b->full), 1, 0);
+    //sem_init(&(b->empty), 1, 100);
     return 0;
 }
 
@@ -168,10 +189,11 @@ int init_voiture(voiture *v, int id)
     v->pit = -1;
     v->out = -1;
     v->total = 0;
+    v->finished = 0;
     return 0;
 }
 
-int insert(buffer *b, voiture *v)
+int insert(buffer *b, voiture *v, double tempsCourse)
 {
 
     v->s1 = randomGenerator(45000, 50000);
@@ -198,15 +220,19 @@ int insert(buffer *b, voiture *v)
         v->s3 += randomGenerator(10000, 15000);
     }
     v->out = out();
-    if (v->out == 1)
-    {
-        //v->total = 999999999;
-
+    if (v->out) {
+        v->finished = 1;
     }
 
+    if (tempsCourse != 0){
+        if (v->total >= tempsCourse) {
+            v->finished = 1;
+        }
+    }
 
-    sem_wait(&(b->empty));
-    sem_wait(&(b->mutex));
+    //sem_wait(&(b->empty));
+    sem_lock(b->mutex, 0);
+    //printf("V: %d - Finished: %d\n", v->id, v->finished);
     if (b->first == -1)
     {
         b->first = 0;
@@ -214,16 +240,16 @@ int insert(buffer *b, voiture *v)
     b->last = (b->last + 1) % (b->maxsize);
     b->size++;
     b->tab[b->last] = (*v);
-    sem_post(&(b->mutex));
-    sem_post((&b->full));
+    sem_unlock(b->mutex, 0);
+    //sem_post((&b->full));
     return 0;
 }
 
 voiture rem(buffer *b)
 {
     voiture ret;
-    sem_wait(&(b->full));
-    sem_wait(&(b->mutex));
+    //sem_wait(&(b->full));
+    sem_lock(b->mutex, 0);
     ret = b->tab[(b->first)];
     if (b->first == b->last)
     {
@@ -234,8 +260,8 @@ voiture rem(buffer *b)
         b->first = (b->first + 1) % (b->maxsize);
     }
     b->size--;
-    sem_post(&(b->mutex));
-    sem_post(&(b->empty));
+    sem_unlock(b->mutex, 0);
+    //sem_post(&(b->empty));
     return ret;
 }
 
@@ -243,6 +269,16 @@ int compare_qualification(const void * a, const void * b)
 {
     voiture *voitureA = (voiture *)a;
     voiture *voitureB = (voiture *)b;
+
+    double bestA = voitureA->bestour;
+    double bestB = voitureB->bestour;
+    if (bestA > bestB) {
+        return 1;
+    } else if (bestA < bestB) {
+        return -1;
+    } else {
+        return 0;
+    }
 
     return (voitureA->bestour - voitureB->bestour);
 }
@@ -252,14 +288,28 @@ int compare_race(const void *a, const void *b)
     voiture *voitureA = (voiture *)a;
     voiture *voitureB = (voiture *)b;
 
-    return ((voitureA->total/voitureA->numTour) - (voitureB->total/voitureB->numTour));
+    if (voitureA->out && !voitureB->out) {
+        return 1;
+    } else if (!voitureA->out && voitureB->out) {
+        return -1;
+    } else {
+        double tempsMA = (voitureA->total/voitureA->numTour);
+        double tempsMB = (voitureB->total/voitureB->numTour);
+        if (tempsMA > tempsMB) {
+            return 1;
+        } else if (tempsMA < tempsMB) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 }
 
 void grid(voiture f1[20]){
     int place = 1;
     printf("============GRID============\n");
     printf("|                          |\n");
-    for (int i; i<20; i++) {
+    for (int i = 0; i<20; i++) {
         if (i % 2 == 0) {
             if (f1[i].id / 10 < 1) {
                 printf("|\t[%d ]\t\t   |  %d\n", f1[i].id, place);
