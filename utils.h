@@ -233,7 +233,8 @@ int insert(buffer *b, voiture *v, double tempsCourse)
             v->finished = 1;
         }
     }
-
+    unsigned int waitT = (unsigned int)v->tour;
+    usleep(waitT);
     sem_lock(b->mutex, 0);
     b->size++;
     b->tab[b->last] = (*v);
