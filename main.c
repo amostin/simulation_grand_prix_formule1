@@ -215,21 +215,43 @@ int run(int param, int shmid, int nbrTour)
         char titre[100];
         switch(param) {
             case 0:
+                for (int i = 0; i < nbrVoiture; i++) {
+                    sorter[i].finished = 0;
+                }
                 sprintf(titre, "---- Essai 1 ----\n");
                 break;
             case 1:
+                for (int i = 0; i < nbrVoiture; i++) {
+                    sorter[i].finished = 0;
+                }
                 sprintf(titre, "---- Essai 2 ----\n");
                 break;
             case 2:
+                for (int i = 0; i < nbrVoiture; i++) {
+                    sorter[i].finished = 0;
+                }
                 sprintf(titre, "---- Essai 3 ----\n");
                 break;
             case 3:
+                for (int i = 0; i < nbrVoiture; i++) {
+                    sorter[i].finished = 0;
+                }
                 sprintf(titre, "---- Qualification 1 ----\n");
                 break;
             case 10:
+                for (int i = 0; i < nbrVoiture; i++) {
+                    if (!sorter[i].outQualif1) {
+                        sorter[i].finished = 0;
+                    }
+                }
                 sprintf(titre, "---- Qualification 2 ----\n");
                 break;
             case 11:
+                for (int i = 0; i < nbrVoiture; i++) {
+                    if (!sorter[i].outQualif2) {
+                        sorter[i].finished = 0;
+                    }
+                }
                 sprintf(titre, "---- Qualification 3 ----\n");
                 break;
         }
