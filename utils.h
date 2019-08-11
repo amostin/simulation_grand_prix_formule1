@@ -18,6 +18,9 @@ typedef struct Voiture
     int out;
     double total;
     int finished;
+    int outQualif1;
+    int outQualif2;
+    int posGrid;
 } voiture;
 
 typedef struct Buffer
@@ -188,6 +191,9 @@ int init_voiture(voiture *v, int id)
     v->out = -1;
     v->total = 0;
     v->finished = 0;
+    v->outQualif1 = 0;
+    v->outQualif2 = 0;
+    v->posGrid = 0;
     return 0;
 }
 
@@ -271,6 +277,62 @@ int compare_qualification(const void * a, const void * b)
     }
 
 }
+int compare_qualification2(const void * a, const void * b)
+{
+    voiture *voitureA = (voiture *)a;
+    voiture *voitureB = (voiture *)b;
+
+    double bestA = voitureA->bestour;
+    double bestB = voitureB->bestour;
+    int qualifA = voitureA->outQualif1;
+    int qualifB = voitureB->outQualif1;
+    if (qualifA > qualifB) {
+        return 1;
+    } else if (qualifA < qualifB){
+        return -1;
+    } else {
+        if (bestA > bestB) {
+            return 1;
+        } else if (bestA < bestB) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+int compare_qualification3(const void * a, const void * b)
+{
+    voiture *voitureA = (voiture *)a;
+    voiture *voitureB = (voiture *)b;
+
+    double bestA = voitureA->bestour;
+    double bestB = voitureB->bestour;
+    int qualif2A = voitureA->outQualif2;
+    int qualif2B = voitureB->outQualif2;
+    int qualif1A = voitureA->outQualif1;
+    int qualif1B = voitureB->outQualif1;
+    if (qualif1A > qualif1B){
+        return 1;
+    } else if (qualif1A < qualif1B) {
+        return -1;
+    } else {
+        if (qualif2A > qualif2B) {
+            return 1;
+        } else if (qualif2A < qualif2B){
+            return -1;
+        } else {
+            if (bestA > bestB) {
+                return 1;
+            } else if (bestA < bestB) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+}
 
 int compare_race(const void *a, const void *b)
 {
@@ -282,14 +344,22 @@ int compare_race(const void *a, const void *b)
     } else if (!voitureA->out && voitureB->out) {
         return -1;
     } else {
-        double tempsMA = (voitureA->total/voitureA->numTour);
-        double tempsMB = (voitureB->total/voitureB->numTour);
-        if (tempsMA > tempsMB) {
-            return 1;
-        } else if (tempsMA < tempsMB) {
+        double tourA = voitureA->numTour;
+        double tourB= voitureB->numTour;
+        if (tourA > tourB) {
             return -1;
+        } else if (tourA < tourB) {
+            return 1;
         } else {
-            return 0;
+            double totalA = voitureA->total;
+            double totalB = voitureB->total;
+            if (totalA > totalB) {
+                return 1;
+            } else if (totalA < totalB) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
 }
