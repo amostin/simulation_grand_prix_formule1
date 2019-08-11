@@ -14,9 +14,33 @@
 #include <sys/shm.h>
 /* Pour le utils */
 #include "utils.h"
+
 const int nbrVoiture = 20;
 int ID[20] = {44, 77, 5, 7, 3, 33, 11, 31, 18, 35, 27, 55, 10, 28, 8, 20, 2, 14, 9, 16};
-voiture sorter[20] = {
+car sorter[20] = {
+        {   .id = 44  },
+        {   .id = 77  },
+        {   .id = 5   },
+        {   .id = 7   },
+        {   .id = 3   },
+        {   .id = 33  },
+        {   .id = 11  },
+        {   .id = 31  },
+        {   .id = 18  },
+        {   .id = 35  },
+        {   .id = 27  },
+        {   .id = 55  },
+        {   .id = 10  },
+        {   .id = 28  },
+        {   .id = 8   },
+        {   .id = 20  },
+        {   .id = 2   },
+        {   .id = 14  },
+        {   .id = 9   },
+        {   .id = 16  },
+};
+
+car sector_sorter[20] = {
         {   .id = 44  },
         {   .id = 77  },
         {   .id = 5   },
@@ -42,8 +66,7 @@ voiture sorter[20] = {
 
 
 
-int run(int param, int shmid, int nbrTour)
-{
+int run(int param, int shmid, int nbrTour) {
     double tpsE1 = 90*60*1000;
     double tpsE2 = 90*60*1000;
     double tpsE3 = 60*60*1000;
@@ -52,22 +75,20 @@ int run(int param, int shmid, int nbrTour)
     double tpsQ3 = 12*60*1000;
     buffer *b;
     b = (buffer *)shmat(shmid, NULL, 0);
-    if (b == (void *)-1)
-    {
+    if (b == (void *)-1) {
         printf("error shmat\n");
         return 0;
     }
     init_buff(b);
 
     pid_t pid;
-    for (int i = 0; i < nbrVoiture; i++)
-    {
+    for (int i = 0; i < nbrVoiture; i++) {
         if (param == 10) {
             int numV = ID[i];
             int outQualif = 0;
             for (int m = 0; m < nbrVoiture; m++) {
                 if (sorter[m].id == numV) {
-                    outQualif = sorter[m].outQualif1;
+                    outQualif = sorter[m].out_qualif1;
                 }
             }
             if (outQualif) {
@@ -79,7 +100,7 @@ int run(int param, int shmid, int nbrTour)
             int outQualif = 0;
             for (int m = 0; m < nbrVoiture; m++) {
                 if (sorter[m].id == numV) {
-                    outQualif = sorter[m].outQualif2;
+                    outQualif = sorter[m].out_qualif2;
                 }
             }
             if (outQualif) {
@@ -87,20 +108,18 @@ int run(int param, int shmid, int nbrTour)
             }
         }
         pid = fork();
-        if (pid == 0)
-        {
+        if (pid == 0) {
             srand(getpid());
-            voiture v;
+            car v;
             if (param == 4) {
                 init_voiture(&v, sorter[i].id);
-                usleep(sorter[i].posGrid*100*1000);
+                usleep(sorter[i].pos_grid*100*1000);
             } else {
                 init_voiture(&v, ID[i]);
             }
 
             buffer *b = shmat(shmid, NULL, 0);
-            if (b == (void *)-1)
-            {
+            if (b == (void *)-1) {
                 printf("error shmat\n");
                 exit(EXIT_FAILURE);
             }
@@ -152,8 +171,7 @@ int run(int param, int shmid, int nbrTour)
                 }
             }
 
-            if (shmdt(b) == -1)
-            {
+            if (shmdt(b) == -1) {
                 perror("shmdt");
                 exit(EXIT_FAILURE);
             }
@@ -165,22 +183,25 @@ int run(int param, int shmid, int nbrTour)
         for(int i = 0; i < nbrVoiture; i++) {
             sorter[i].total = 0;
             sorter[i].finished = 0;
-            sorter[i].numTour = 0;
+            sorter[i].num_lap = 0;
             sorter[i].out = 0;
             sorter[i].s1 = 0;
             sorter[i].s2 = 0;
             sorter[i].s3 = 0;
+            sorter[i].best_s1 = 0;
+            sorter[i].best_s2 = 0;
+            sorter[i].best_s3 = 0;
             sorter[i].pit = 0;
-            sorter[i].bestour = 0;
+            sorter[i].best_lap = 0;
         }
         int finished = 0;
         while (!finished) {
             usleep(1000);
             for (int j = 0; j < nbrVoiture; j++) {
-                voiture temp = rem(b);
+                car temp = rem(b);
                 for (int k = 0; k < nbrVoiture; k++) {
                     if (temp.id == sorter[k].id) {
-                        memcpy(&sorter[k], &temp, sizeof(voiture));
+                        memcpy(&sorter[k], &temp, sizeof(car));
                     }
                 }
             }
@@ -190,28 +211,30 @@ int run(int param, int shmid, int nbrTour)
                     nbFinished++;
                 }
             }
-            qsort(sorter, 20, sizeof(voiture), compare_race);
+            qsort(sorter, 20, sizeof(car), compare_race);
             if (nbFinished != nbrVoiture) {
                 sleep(1);
                 system("clear");
                 printf("--------- Grand Prix ----------\n");
                 column();
-                affichage(sorter);
+                display(sorter);
+                printf("\n");
+                display_best_sectors(sorter);
             } else {
                 sleep(1);
                 system("clear");
                 printf("--------- Grand Prix ----------\n");
                 column();
-                affichage(sorter);
+                display(sorter);
+                printf("\n");
+                display_best_sectors(sorter);
                 sleep(1);
                 podium(sorter);
                 finished = 1;
             }
         }
 
-    }
-    else
-    {
+    } else {
         char titre[100];
         switch(param) {
             case 0:
@@ -240,7 +263,7 @@ int run(int param, int shmid, int nbrTour)
                 break;
             case 10:
                 for (int i = 0; i < nbrVoiture; i++) {
-                    if (!sorter[i].outQualif1) {
+                    if (!sorter[i].out_qualif1) {
                         sorter[i].finished = 0;
                     }
                 }
@@ -248,7 +271,7 @@ int run(int param, int shmid, int nbrTour)
                 break;
             case 11:
                 for (int i = 0; i < nbrVoiture; i++) {
-                    if (!sorter[i].outQualif2) {
+                    if (!sorter[i].out_qualif2) {
                         sorter[i].finished = 0;
                     }
                 }
@@ -259,10 +282,10 @@ int run(int param, int shmid, int nbrTour)
         while (!finished) {
             usleep(1000);
             for (int j = 0; j < nbrVoiture; j++) {
-                voiture temp = rem(b);
+                car temp = rem(b);
                 for (int k = 0; k < nbrVoiture; k++) {
                     if (temp.id == sorter[k].id) {
-                        memcpy(&sorter[k], &temp, sizeof(voiture));
+                        memcpy(&sorter[k], &temp, sizeof(car));
                     }
                 }
             }
@@ -273,11 +296,11 @@ int run(int param, int shmid, int nbrTour)
                 }
             }
             if (param == 10) {
-                qsort(sorter, nbrVoiture, sizeof(voiture), compare_qualification2);
+                qsort(sorter, nbrVoiture, sizeof(car), compare_qualification2);
             } else if (param == 11) {
-                qsort(sorter, nbrVoiture, sizeof(voiture), compare_qualification3);
+                qsort(sorter, nbrVoiture, sizeof(car), compare_qualification3);
             } else {
-                qsort(sorter, nbrVoiture, sizeof(voiture), compare_qualification);
+                qsort(sorter, nbrVoiture, sizeof(car), compare_qualification);
             }
 
             if (nbFinished != nbrVoiture) {
@@ -285,14 +308,17 @@ int run(int param, int shmid, int nbrTour)
                 system("clear");
                 printf("%s", titre);
                 column();
-                affichage(sorter);
-            } else
-            {
+                display(sorter);
+                printf("\n");
+                display_best_sectors(sorter);
+            } else {
                 sleep(1);
                 system("clear");
                 printf("%s", titre);
                 column();
-                affichage(sorter);
+                display(sorter);
+                printf("\n");
+                display_best_sectors(sorter);
                 sleep(1);
 
                 switch (param){
@@ -303,21 +329,22 @@ int run(int param, int shmid, int nbrTour)
                     case 3:
                         for(int p = 0; p < nbrVoiture; p++){
                             if (p >= 15){
-                                sorter[p].outQualif1 = 1;
+                                sorter[p].out_qualif1 = 1;
                             }
                         }
                         break;
                     case 10:
                         for(int p = 0; p < nbrVoiture; p++){
                             if (p >= 10){
-                                sorter[p].outQualif2 = 1;
+                                sorter[p].out_qualif2 = 1;
                             }
                         }
                         break;
                     case 11:
                         for(int p = 0; p < nbrVoiture; p++){
-                                sorter[p].posGrid = (p + 1);
+                            sorter[p].pos_grid = (p + 1);
                         }
+                        qsort(sorter, nbrVoiture, sizeof(car), compare_qualification3);
                         grid(sorter);
                         break;
                     default:
@@ -329,31 +356,29 @@ int run(int param, int shmid, int nbrTour)
 
     }
 
-    if (shmdt(b) == -1)
-    {
+    if (shmdt(b) == -1) {
         perror("shmdt");
         return -1;
     }
     fflush(stdin);
-    printf("Pour continuer, appuyer sur une touche ...\n\n");
+    printf("Pour continuer, appuyer sur Enter ...\n\n");
     getchar();
     system("clear");
     return 0;
 }
-
 
 void menu(int nbrTour, int shmid){
     char type;
     int exit = 0;
     int gpOK = 0;
     do {
-
         system("clear");
-        printf("0: Lance l'essai 1.\n");
-        printf("1: Lance l'essai 2.\n");
-        printf("2: Lance l'essai 3.\n");
-        printf("3: Lance les qualifications. \n");
-        printf("4: Lance le Grand-Prix. \n");
+        printf("BIENVENUE AU GRAND-PRIX\n\n");
+        printf("1: Séance d'essais numéro 1.\n");
+        printf("2: Séance d'essais numéro 2.\n");
+        printf("3: Séance d'essais numéro 3.\n");
+        printf("4: Séance de qualifications. \n");
+        printf("5: Grand-Prix. \n");
         printf("9. Quitter le programme.\n");
         printf("\nFaites votre choix : ");
         fflush(stdin);
@@ -362,22 +387,22 @@ void menu(int nbrTour, int shmid){
         fflush(stdin);
 
         switch(type) {
-            case '0':
+            case '1':
                 run(0, shmid, nbrTour);
                 break;
-            case '1':
+            case '2':
                 run(1, shmid, nbrTour);
                 break;
-            case '2':
+            case '3':
                 run(2, shmid, nbrTour);
                 break;
-            case '3':
+            case '4':
                 run(3, shmid, nbrTour);
                 run(10, shmid, nbrTour);
                 run(11, shmid, nbrTour);
                 gpOK = 1;
                 break;
-            case '4':
+            case '5':
                 if (!gpOK) {
                     printf("Veuillez d'abord lancer les qualifications avant le Grand-Prix \n\n");
                     break;
@@ -403,8 +428,7 @@ int main(int argc, char  **argv) {
     }
     key_t key = ftok("/dev/null", 42);
     int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 0666);
-    if (shmid == -1)
-    {
+    if (shmid == -1) {
         printf("error shmget\n");
         return 0;
     }
