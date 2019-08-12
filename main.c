@@ -40,31 +40,6 @@ car sorter[20] = {
         {   .id = 16  },
 };
 
-car sector_sorter[20] = {
-        {   .id = 44  },
-        {   .id = 77  },
-        {   .id = 5   },
-        {   .id = 7   },
-        {   .id = 3   },
-        {   .id = 33  },
-        {   .id = 11  },
-        {   .id = 31  },
-        {   .id = 18  },
-        {   .id = 35  },
-        {   .id = 27  },
-        {   .id = 55  },
-        {   .id = 10  },
-        {   .id = 28  },
-        {   .id = 8   },
-        {   .id = 20  },
-        {   .id = 2   },
-        {   .id = 14  },
-        {   .id = 9   },
-        {   .id = 16  },
-};
-
-
-
 
 int run(int param, int shmid, int nbrTour) {
     double tpsE1 = 90*60*1000;
