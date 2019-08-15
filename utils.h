@@ -84,4 +84,25 @@ void grid(car f1[20]);
 
 void podium(car f1[20]);
 
+int file_print(car tab[20]);
+
+int file_print_column();
+
+int file_erase();
+
+int file_print_essai1();
+
+int file_print_essai2();
+
+int file_print_essai3();
+
+int file_print_qualif1();
+
+int file_print_qualif2();
+
+int file_print_qualif3();
+
+int file_print_race();
+
+
 #endif

@@ -410,3 +410,177 @@ void podium(car f1[20]){
     printf(" |‾‾‾‾‾|     |‾‾‾‾‾|\n");
     printf(" | [2] |     | [3] |\n");
 }
+
+int file_erase()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "w");
+    if (file != NULL)
+    {
+        fprintf(file, "Voici les résultats du Grand-Prix\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+}
+
+
+int file_print_essai1()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file, "\n------ ESSAIS 1 ------\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+}
+
+int file_print_essai2()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file, "\n------ ESSAIS 2 ------\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+}
+
+int file_print_essai3()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file, "\n------ ESSAIS 3 ------\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+
+}
+
+int file_print_qualif1()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file, "\n------ QUALIF 1 ------\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+
+}
+
+int file_print_qualif2()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file, "\n------ QUALIF 2 ------\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+
+}
+
+int file_print_qualif3()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file, "\n------ QUALIF 3 ------\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+
+}
+
+int file_print_race() {
+    FILE *file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file, "\n------ COURSE ------\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+
+}
+
+
+
+
+int file_print_column()
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        fprintf(file,"Num\t|");
+        fprintf(file,"S1\t|");
+        fprintf(file,"S2\t|");
+        fprintf(file,"S3\t|");
+        fprintf(file,"Tour\t\t|");
+        fprintf(file,"Meilleur tour\t|");
+        fprintf(file,"Numéro tour\t|");
+        fprintf(file,"Temps total\t|");
+        fprintf(file,"Stand\t|");
+        fprintf(file,"Sortie\n");
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+
+
+}
+int file_print(car tab[20])
+{
+    FILE* file = NULL;
+    file = fopen("results.txt", "a+");
+    if (file != NULL)
+    {
+        for (int i = 0; i<20 ; i++)
+        {
+            fprintf(file, "%d\t|", tab[i].id);
+            fprintf(file,"%.3f\t|", tab[i].s1 / (double)1000);
+            fprintf(file,"%.3f\t|", tab[i].s2 / (double)1000);
+            fprintf(file,"%.3f\t|", tab[i].s3 / (double)1000);
+            fprintf(file,"%s\t|", time_format(tab[i].lap));
+            fprintf(file,"%s\t|", time_format(tab[i].best_lap));
+            fprintf(file,"%d\t\t|", tab[i].num_lap);
+            fprintf(file,"%s\t|", time_format(tab[i].total));
+
+            if (tab[i].pit == 1) {
+                fprintf(file,"PIT\t|");
+            }
+            else {
+                fprintf(file,"---\t|");
+            }
+
+            if (tab[i].out == 1) {
+                fprintf(file,"DNF\t\n");
+            }
+            else {
+                fprintf(file,"---\t\n");
+            }
+        }
+
+        fclose(file);
+    } else {
+        perror("open file");
+    }
+
+}

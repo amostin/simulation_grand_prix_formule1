@@ -202,6 +202,9 @@ int run(int param, int shmid, int nbrTour) {
                 column();
                 display(sorter);
                 printf("\n");
+                file_print_race();
+                file_print_column();
+                file_print(sorter);
                 display_best_sectors(sorter);
                 sleep(1);
                 podium(sorter);
@@ -217,24 +220,28 @@ int run(int param, int shmid, int nbrTour) {
                     sorter[i].finished = 0;
                 }
                 sprintf(titre, "---- Essai 1 ----\n");
+                file_print_essai1();
                 break;
             case 1:
                 for (int i = 0; i < nbrVoiture; i++) {
                     sorter[i].finished = 0;
                 }
                 sprintf(titre, "---- Essai 2 ----\n");
+                file_print_essai2();
                 break;
             case 2:
                 for (int i = 0; i < nbrVoiture; i++) {
                     sorter[i].finished = 0;
                 }
                 sprintf(titre, "---- Essai 3 ----\n");
+                file_print_essai3();
                 break;
             case 3:
                 for (int i = 0; i < nbrVoiture; i++) {
                     sorter[i].finished = 0;
                 }
                 sprintf(titre, "---- Qualification 1 ----\n");
+                file_print_qualif1();
                 break;
             case 10:
                 for (int i = 0; i < nbrVoiture; i++) {
@@ -243,6 +250,7 @@ int run(int param, int shmid, int nbrTour) {
                     }
                 }
                 sprintf(titre, "---- Qualification 2 ----\n");
+                file_print_qualif2();
                 break;
             case 11:
                 for (int i = 0; i < nbrVoiture; i++) {
@@ -251,6 +259,7 @@ int run(int param, int shmid, int nbrTour) {
                     }
                 }
                 sprintf(titre, "---- Qualification 3 ----\n");
+                file_print_qualif3();
                 break;
         }
         int finished = 0;
@@ -284,6 +293,7 @@ int run(int param, int shmid, int nbrTour) {
                 printf("%s", titre);
                 column();
                 display(sorter);
+
                 printf("\n");
                 display_best_sectors(sorter);
             } else {
@@ -293,6 +303,8 @@ int run(int param, int shmid, int nbrTour) {
                 column();
                 display(sorter);
                 printf("\n");
+                file_print_column();
+                file_print(sorter);
                 display_best_sectors(sorter);
                 sleep(1);
 
@@ -401,6 +413,7 @@ int main(int argc, char  **argv) {
         printf("Veuillez introduire le nombre de tours\n");
         return 0;
     }
+    file_erase();
     key_t key = ftok("/dev/null", 42);
     int shmid = shmget(key, sizeof(buffer), IPC_CREAT | 0666);
     if (shmid == -1) {
