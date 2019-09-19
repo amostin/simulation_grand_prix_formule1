@@ -296,6 +296,13 @@ int run(int param, int shmid, int nbrTour) {
 
                 printf("\n");
                 display_best_sectors(sorter);
+                if (param == 10) {
+                    qsort(sorter, nbrVoiture, sizeof(car), compare_qualification2);
+                } else if (param == 11) {
+                    qsort(sorter, nbrVoiture, sizeof(car), compare_qualification3);
+                } else {
+                    qsort(sorter, nbrVoiture, sizeof(car), compare_qualification);
+                }
             } else {
                 sleep(1);
                 system("clear");
@@ -307,6 +314,13 @@ int run(int param, int shmid, int nbrTour) {
                 file_print(sorter);
                 display_best_sectors(sorter);
                 sleep(1);
+                if (param == 10) {
+                    qsort(sorter, nbrVoiture, sizeof(car), compare_qualification2);
+                } else if (param == 11) {
+                    qsort(sorter, nbrVoiture, sizeof(car), compare_qualification3);
+                } else {
+                    qsort(sorter, nbrVoiture, sizeof(car), compare_qualification);
+                }
 
                 switch (param){
                     case 0:
