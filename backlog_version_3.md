@@ -1,8 +1,9 @@
 # sprint backlog
-> fin esperée le 18/07/2019 mais estimée au 01/08/2019
-* stocker les infos generée par tout les process dans mem partagée
-* tester la mem partagée et l'ajuster avec des semaphores
-* afficher le tableau avec les 20 temps 
+## sprint 2
+> fin estimée au 2/8/2019
+* implementer les semaphores
+* afficher 20 voitures sur plusieurs tour
+* afficher le tableau en le mettant à jour toute les x secondes pendant 1h30
 
 num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot
 ---|--|--|--|------|-------|---|---|-------|---
@@ -12,6 +13,15 @@ num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot
 4  |38|35|41|1min54|1min54 |0  |0  |1      |1min54
 5  |40|35|39|1min54|1min54 |0  |0  |1      |1min54
 ... JUSQUA 20
+
+
+## sprint 1
+> fin esperée le 18/07/2019 mais estimée au 01/08/2019
+> ***FINI LE 26/7/2019***
+* stocker les infos generée par tout les process dans mem partagée
+* tester la mem partagée et l'ajuster avec des semaphores
+* afficher le tableau avec les 20 temps 
+
 
 # release backlog
 ## Version 1:
@@ -27,10 +37,18 @@ num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot
 - [x] fork pour avoir un process afficheur et 20 pour voiture
 
 ## Version 3:
+### Sprint 1
 > on veut pas spécialement de refresh avec les 15 tour pour chaque voiture mais au moins davoir les voiture classée pour un tour
-- [ ] stocker les infos generée par tout les process dans mem partagée
-- [ ] tester la mem partagée et l'ajuster avec des semaphores
-- [ ] afficher le tableau avec les 20 temps 
+- [x] stocker les infos generée par tout les process dans mem partagée
+- [x] tester la mem partagée
+- [x] afficher le tableau avec les 20 temps 
+
+## Sprint 2
+> on veut afficher le tableau que arrive dèjà à avoir avec la shm mais en plus, pouvoir écrire et lire en même temps pour au final afficher un tableau qui se rafraichis pour 1h30 de course
+
+* implementer les semaphores
+* afficher 20 voitures sur plusieurs tour
+* afficher le tableau en le mettant à jour toute les x secondes pendant 1h30
 
 ## Version 4:
 > Tri synchrone et classement finaux stocké
@@ -84,3 +102,4 @@ num|s1|s2|s3|tour  |bestour|pit|out|numTour|Tot
 ## Finitions
 * un makefile qui compile le code
 * une documentation riche
+:octocat:

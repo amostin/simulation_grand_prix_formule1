@@ -37,7 +37,9 @@
 - [x] affiche toute les stat pour chacune des deux voitures
 - [x] Affiche les 20 voitures
 - [x] Update backlog, rapport avancement et retrospective
-- [x] 
+- [x] stocker les infos generée par tout les process dans mem partagée
+- [x] tester la mem partagée 
+- [x] afficher le tableau avec les 20 temps 
 - [x] 
 - [x] 
 - [x] 
